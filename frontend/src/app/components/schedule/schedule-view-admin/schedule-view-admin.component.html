@@ -1,0 +1,37 @@
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Schedule</h1>
+<mat-divider></mat-divider>
+<br><br>
+
+<form [formGroup]="form" style="display: flex; justify-content: center;align-items: center;flex-direction: row;">
+
+  <mat-form-field>
+    <mat-label for="faculty">Faculty:</mat-label>
+    <mat-select [formControl]="$any(form).controls.faculty" name="faculty">
+      <mat-option *ngFor="let faculty of facultyList"
+                  [value]="faculty">
+        {{faculty.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+  <button (click)="generateSchedule()" [disabled]="!form.valid" mat-raised-button style="margin-left: 30px"
+          type="button">GenerateSchedule
+  </button>
+
+  <br>
+  <button (click)="getSchedule()" [disabled]="!form.valid" mat-raised-button style="margin-left: 30px" type="button">
+    GetSchedule
+  </button>
+
+
+</form>
+<br><br>
+
+<div style="padding-left: 10%;padding-right: 10%">
+
+  <app-table [columnsToDisplay]="['staff', 'lecture', 'day', 'shift']"
+             [columnsToIterate]="['staff','lecture', 'day', 'shift']"
+             [dataSource]="schedule">
+  </app-table>
+</div>

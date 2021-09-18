@@ -1,0 +1,74 @@
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Lectures</h1>
+<mat-divider></mat-divider>
+<br><br>
+<div style="float: left; margin-left: 1%; font-size: large; width: 35%">
+
+  <mat-label style="margin-left: 10%">Add lecture</mat-label>
+
+  <form (ngSubmit)="addLecture()" [formGroup]="form" style="padding-left: 25px;">
+
+    <mat-form-field>
+      <mat-label for="name">Name:</mat-label>
+      <input [formControl]="$any(form).controls.name" matInput name="name"
+             placeholder="Name">
+      <mat-error *ngIf="form.controls.name.touched && form.controls.name.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="numberOfTimes">Times per week:</mat-label>
+      <input [formControl]="$any(form).controls.numberOfTimes" matInput max="10" min="0" name="numberOfTimes"
+             placeholder="Times per week"
+             type="number">
+      <mat-error *ngIf="form.controls.numberOfTimes.touched && form.controls.numberOfTimes.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <button [disabled]="form.controls.name.errors?.required &&
+                                                        form.controls.numberOfTimes.errors?.required " mat-raised-button
+            style="margin-left: 30px" type="submit">Add lecture
+    </button>
+  </form>
+
+  <br><br><br><br>
+
+  <div [hidden]="this.isHidden">
+
+    <mat-label style="margin-left: 10%">Update lecture</mat-label>
+
+    <form (ngSubmit)="editLecture()" [formGroup]="formEdit" style="padding-left: 25px;">
+
+      <mat-form-field>
+        <mat-label for="name">Name:</mat-label>
+        <input [formControl]="$any(formEdit).controls.name" matInput name="name"
+               placeholder="Name">
+        <mat-error *ngIf="formEdit.controls.name.touched && formEdit.controls.name.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="numberOfTimes">Times per week:</mat-label>
+        <input [formControl]="$any(formEdit).controls.numberOfTimes" matInput max="10" min="1" name="numberOfTimes"
+               placeholder="Times per week"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.numberOfTimes.touched && formEdit.controls.numberOfTimes.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+      <button [disabled]="!formEdit.valid" mat-raised-button style="margin-left: 30px" type="submit">Update lecture
+      </button>
+
+    </form>
+  </div>
+
+</div>
+<div style="width: 50%; height: 50%; float: right; padding-right: 10%; padding-top: 3%">
+  <app-table (Click)="editModeOn($event)"
+             (Delete)="deleteLecture($event)"
+             [columnsToDisplay]="['name', 'times per week', 'delete']" [columnsToIterate]="['name', 'number_of_times']"
+             [dataSource]="lectures"></app-table>
+</div>
+

@@ -1,0 +1,11 @@
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Schedule</h1>
+<mat-divider></mat-divider>
+<br><br>
+
+<div style="padding-left: 10%;padding-right: 10%">
+
+  <app-table [columnsToDisplay]="['staff', 'lecture', 'day', 'shift']"
+             [columnsToIterate]="['staff', 'lecture', 'day', 'shift']"
+             [dataSource]="schedule">
+  </app-table>
+</div>

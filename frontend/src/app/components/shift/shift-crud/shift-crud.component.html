@@ -1,0 +1,135 @@
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Shifts</h1>
+<mat-divider></mat-divider>
+<br><br>
+<div style="float: left; margin-left: 1%; font-size: large; width: 35%">
+
+  <mat-label style="margin-left: 10%">Add shift</mat-label>
+
+  <form (ngSubmit)="addShift()" [formGroup]="form" style="padding-left: 25px;">
+
+    <mat-form-field>
+      <mat-label for="startHour">Start of Shift (Hour):</mat-label>
+      <input [formControl]="$any(form).controls.startHour" matInput max="24" min="0" name="startHour" placeholder="Hour"
+             type="number">
+      <mat-error *ngIf="form.controls.startHour.touched && form.controls.startHour.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="startMinute">Start of Shift (Minute):</mat-label>
+      <input [formControl]="$any(form).controls.startMinute" matInput max="60" min="0" name="startMinute"
+             placeholder="Minute"
+             type="number">
+      <mat-error *ngIf="form.controls.startMinute.touched && form.controls.startMinute.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="endHour">End of Shift (Hour):</mat-label>
+      <input [formControl]="$any(form).controls.endHour" matInput max="24" min="0" name="endHour" placeholder="Hour"
+             type="number">
+      <mat-error *ngIf="form.controls.endHour.touched && form.controls.endHour.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="endMinute">End of Shift (Minute):</mat-label>
+      <input [formControl]="$any(form).controls.endMinute" matInput max="60" min="0" name="endMinute"
+             placeholder="Minute"
+             type="number">
+      <mat-error *ngIf="form.controls.endMinute.touched && form.controls.endMinute.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="endMinute">Day:</mat-label>
+      <mat-select [formControl]="$any(form).controls.day" name="day">
+        <mat-option *ngFor="let day of ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']" [value]="day">
+          {{day}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.controls.day.touched && form.controls.day.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <button [disabled]="form.controls.startHour.errors?.required &&
+                                                        form.controls.startMinute.errors?.required &&
+                                                        form.controls.endHour.errors?.required &&
+                                                        form.controls.startMinute.errors?.required &&
+                                                        form.controls.day.errors?.required" mat-raised-button
+            style="margin-left: 30px" type="submit">Add shift
+    </button>
+  </form>
+
+  <br><br><br><br>
+
+  <div [hidden]="this.isHidden">
+
+    <mat-label style="margin-left: 10%">Update shift</mat-label>
+
+    <form (ngSubmit)="editShift()" [formGroup]="formEdit" style="padding-left: 25px;">
+
+      <mat-form-field>
+        <mat-label for="startHour">Start of Shift (Hour):</mat-label>
+        <input [formControl]="$any(formEdit).controls.startHour" matInput max="24" min="0" name="startHour"
+               placeholder="Hour"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.startHour.touched && formEdit.controls.startHour.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="startMinute">Start of Shift (Minute):</mat-label>
+        <input [formControl]="$any(formEdit).controls.startMinute" matInput max="60" min="0" name="startMinute"
+               placeholder="Minute"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.startMinute.touched && formEdit.controls.startMinute.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="endHour">End of Shift (Hour):</mat-label>
+        <input [formControl]="$any(formEdit).controls.endHour" matInput max="24" min="0" name="endHour"
+               placeholder="Hour"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.endHour.touched && formEdit.controls.endHour.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="endMinute">End of Shift (Minute):</mat-label>
+        <input [formControl]="$any(formEdit).controls.endMinute" matInput max="60" min="0" name="endMinute"
+               placeholder="Minute"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.endMinute.touched && formEdit.controls.endMinute.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="endMinute">Day:</mat-label>
+        <mat-select [formControl]="$any(formEdit).controls.day" name="day">
+          <mat-option *ngFor="let day of ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']" [value]="day">
+            {{day}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formEdit.controls.day.touched && formEdit.controls.day.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <button [disabled]="!formEdit.valid" mat-raised-button style="margin-left: 30px" type="submit">Update shift
+      </button>
+
+    </form>
+  </div>
+
+</div>
+<div style="width: 50%; height: 50%; float: right; padding-right: 10%; padding-top: 3%">
+  <app-table (Click)="editModeOn($event)"
+             (Delete)="deleteShift($event)"
+             [columnsToDisplay]="['start of shift', 'end of shift', 'day of week', 'delete']"
+             [columnsToIterate]="['start', 'end', 'day']"
+             [dataSource]="shifts"></app-table>
+</div>
+

@@ -1,0 +1,10 @@
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Lectures</h1>
+<mat-divider></mat-divider>
+<br><br>
+<div style="padding-left: 10%;padding-right: 10%">
+
+  <app-table [columnsToDisplay]="['name', 'times per week']"
+             [columnsToIterate]="['name', 'number_of_times']"
+             [dataSource]="lectures">
+  </app-table>
+</div>

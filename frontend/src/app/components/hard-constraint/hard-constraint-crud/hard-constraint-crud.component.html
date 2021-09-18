@@ -1,0 +1,115 @@
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Hard Constraints</h1>
+<mat-divider></mat-divider>
+<br><br>
+<div style="float: left; margin-left: 1%; font-size: large; width: 35%">
+
+  <mat-label style="margin-left: 10%">Add hard constraint</mat-label>
+
+  <form (ngSubmit)="addHardConstraint()" [formGroup]="form" style="padding-left: 25px;">
+
+    <mat-form-field>
+      <mat-label for="dailyMax">Daily Max:</mat-label>
+      <input [formControl]="$any(form).controls.dailyMax" matInput min="1" name="dailyMax" placeholder="Daily Max"
+             type="number">
+      <mat-error *ngIf="form.controls.dailyMax.touched && form.controls.dailyMax.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="weeklyMax">Weekly Max:</mat-label>
+      <input [formControl]="$any(form).controls.weeklyMax" matInput max="10" min="0" name="weeklyMax"
+             placeholder="Weekly Max"
+             type="number">
+      <mat-error *ngIf="form.controls.weeklyMax.touched && form.controls.weeklyMax.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="weeklyMin">Weekly Min:</mat-label>
+      <input [formControl]="$any(form).controls.weeklyMin" matInput max="10" min="0" name="weeklyMin"
+             placeholder="Weekly Min"
+             type="number">
+      <mat-error *ngIf="form.controls.weeklyMin.touched && form.controls.weeklyMin.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="maxPerShift">Max per shift:</mat-label>
+      <input [formControl]="$any(form).controls.maxPerShift" matInput max="10" min="0" name="maxPerShift"
+             placeholder="Max per shift"
+             type="number">
+      <mat-error *ngIf="form.controls.maxPerShift.touched && form.controls.maxPerShift.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <button [disabled]="form.controls.dailyMax.errors?.required &&
+    form.controls.weeklyMax.errors?.required &&
+    form.controls.weeklyMin.errors?.required &&
+                                                        form.controls.maxPerShift.errors?.required " mat-raised-button
+            style="margin-left: 30px" type="submit">Add hard constraint
+    </button>
+  </form>
+
+  <br><br><br><br>
+
+  <div [hidden]="this.isHidden">
+
+    <mat-label style="margin-left: 10%">Update hard constraint</mat-label>
+
+    <form (ngSubmit)="editHardConstraint()" [formGroup]="formEdit" style="padding-left: 25px;">
+
+      <mat-form-field>
+        <mat-label for="dailyMax">Daily Max:</mat-label>
+        <input [formControl]="$any(formEdit).controls.dailyMax" matInput max="20" min="1" name="dailyMax"
+               placeholder="Daily Max"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.dailyMax.touched && formEdit.controls.dailyMax.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="weeklyMax">Weekly Max:</mat-label>
+        <input [formControl]="$any(formEdit).controls.weeklyMax" matInput max="20" min="5" name="weeklyMax"
+               placeholder="Weekly Max"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.weeklyMax.touched && formEdit.controls.weeklyMax.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="weeklyMin">Weekly Min:</mat-label>
+        <input [formControl]="$any(formEdit).controls.weeklyMin" matInput max="10" min="0" name="weeklyMin"
+               placeholder="Weekly Min"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.weeklyMin.touched && formEdit.controls.weeklyMin.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="maxPerShift">Max per shift:</mat-label>
+        <input [formControl]="$any(formEdit).controls.maxPerShift" matInput max="15" min="0" name="maxPerShift"
+               placeholder="Max per shift"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.maxPerShift.touched && formEdit.controls.maxPerShift.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <button [disabled]="!formEdit.valid" mat-raised-button style="margin-left: 30px" type="submit">Edit hard
+        constraint
+      </button>
+
+    </form>
+  </div>
+
+</div>
+<div style="width: 50%; height: 50%; float: right; padding-right: 10%; padding-top: 3%">
+  <app-table (Click)="editModeOn($event)"
+             (Delete)="deleteHardConstraint($event)"
+             [columnsToDisplay]="['daily max', 'weekly max', 'weekly min', 'max per shift', 'delete']"
+             [columnsToIterate]="['daily_max', 'weekly_max', 'weekly_min', 'max_per_shift']"
+             [dataSource]="hardConstraints"></app-table>
+
+</div>
+

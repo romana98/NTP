@@ -1,0 +1,42 @@
+<mat-toolbar color="primary">
+
+  <span (click)="router.navigate(['/admin']);" class="make-cursor" style="padding-left: 0.5%; font-size: large;">Scheduler</span>
+  <mat-icon (click)="router.navigate(['/admin']);" [ngStyle]="{'color':'white'}" class="make-cursor"
+            style="padding-left: 0.5%;">
+    date_range
+  </mat-icon>
+
+  <span style="padding-left: 15%;"></span>
+  <span style="padding-left: 3%;">
+        <button (click)="router.navigate(['/admin/staff']);" mat-button>Staff</button>
+      </span>
+  <span style="padding-left: 3%;">
+        <button (click)="router.navigate(['/admin/lectures']);" mat-button>Lectures</button>
+      </span>
+  <span style="padding-left: 3%;">
+        <button (click)="router.navigate(['/admin/hard-constraints']);" mat-button>Hard Constraints</button>
+      </span>
+  <span style="padding-left: 3%;">
+        <button (click)="router.navigate(['/admin/shifts']);" mat-button>Shifts</button>
+      </span>
+  <span style="padding-left: 3%;">
+        <button (click)="router.navigate(['/admin/faculties']);" mat-button>Faculties</button>
+      </span>
+
+
+  <span class="example-spacer" style="width: 90%"></span>
+  <!--<a (click)="router.navigateByUrl('/admin/view-profile')" style="margin-left: 5%;">
+    <button color="primary" mat-flat-button>
+      <mat-icon [ngStyle]="{'color':'white'}">
+        face
+      </mat-icon>
+    </button>
+  </a>-->
+  <a routerLink="/">
+    <button color="primary" mat-flat-button>
+      <mat-icon (click)="logOutAdmin()" [ngStyle]="{'color':'white'}">
+        logout
+      </mat-icon>
+    </button>
+  </a>
+</mat-toolbar>

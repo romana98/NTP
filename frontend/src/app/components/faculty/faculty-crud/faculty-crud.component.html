@@ -1,0 +1,136 @@
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Faculties</h1>
+<mat-divider></mat-divider>
+<br><br>
+<div style="float: left; margin-left: 1%; font-size: large; width: 35%">
+
+  <mat-label style="margin-left: 10%">Add faculty</mat-label>
+
+  <form (ngSubmit)="addFaculty()" [formGroup]="form" style="padding-left: 25px;">
+
+    <mat-form-field>
+      <mat-label for="name">Faculty Name:</mat-label>
+      <input [formControl]="$any(form).controls.name" matInput name="name" placeholder="Faculty Name">
+      <mat-error *ngIf="form.controls.name.touched && form.controls.name.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="hardConstraint">Hard Constraints:</mat-label>
+      <mat-select [formControl]="$any(form).controls.hardConstraint" name="hardConstraint">
+        <mat-option *ngFor="let hc of hardConstraints" [value]="hc.id">
+          weekly: max-{{hc.weekly_max}}, min-{{hc.weekly_min}}, daily: max-{{hc.daily_max}}, per shift:
+          max-{{hc.max_per_shift}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.controls.name.touched && form.controls.name.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label for="shift">Shifts:</mat-label>
+      <mat-select [formControl]="$any(form).controls.shifts" multiple name="shift">
+        <mat-option *ngFor="let shift of shifts" [value]="shift.id">
+          {{shift.day}}, {{shift.start}} - {{shift.end}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.controls.shifts.touched && form.controls.shifts.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label for="lectures">Lectures:</mat-label>
+      <mat-select [formControl]="$any(form).controls.lectures" multiple name="lectures">
+        <mat-option *ngFor="let lecture of lectures" [value]="lecture.id">
+          {{lecture.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.controls.lectures.touched && form.controls.lectures.errors?.required">
+        This field can't be empty!
+      </mat-error>
+    </mat-form-field>
+
+
+    <br>
+    <button [disabled]="!form.valid" mat-raised-button
+            style="margin-left: 30px" type="submit">Add faculty
+    </button>
+  </form>
+
+  <br><br>
+
+  <div [hidden]="this.isHidden">
+
+    <mat-label style="margin-left: 10%">Update faculty</mat-label>
+
+    <form (ngSubmit)="editFaculty()" [formGroup]="formEdit" style="padding-left: 25px;">
+      <mat-form-field>
+        <mat-label for="name">Faculty Name:</mat-label>
+        <input [formControl]="$any(formEdit).controls.name" matInput name="name" placeholder="Faculty Name">
+        <mat-error *ngIf="formEdit.controls.name.touched && formEdit.controls.name.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="hardConstraint">Hard Constraints:</mat-label>
+        <mat-select [formControl]="$any(formEdit).controls.hardConstraint" name="hardConstraint">
+          <mat-option *ngFor="let hc of hardConstraints" [value]="hc.id">
+            weekly: max-{{hc.weekly_max}}, min-{{hc.weekly_min}}, daily: max-{{hc.daily_max}}, per shift:
+            max-{{hc.max_per_shift}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formEdit.controls.name.touched && formEdit.controls.name.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label for="shift">Shifts:</mat-label>
+        <mat-select [formControl]="$any(formEdit).controls.shifts" multiple name="shift">
+          <mat-option *ngFor="let shift of shifts" [value]="shift.id">
+            {{shift.day}}, {{shift.start}} - {{shift.end}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formEdit.controls.shifts.touched && formEdit.controls.shifts.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label for="lectures">Lectures:</mat-label>
+        <mat-select [formControl]="$any(formEdit).controls.lectures" multiple name="lectures">
+          <mat-option *ngFor="let lecture of lectures" [value]="lecture.id">
+            {{lecture.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formEdit.controls.lectures.touched && formEdit.controls.lectures.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label for="staff">Staff:</mat-label>
+        <mat-select [formControl]="$any(formEdit).controls.staffList" multiple name="staff">
+          <mat-option *ngFor="let staff of staffList" [value]="staff.id">
+            {{staff.name}} {{staff.surname}}, {{staff.email}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formEdit.controls.staffList.touched && formEdit.controls.staffList.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <button [disabled]="!formEdit.valid" mat-raised-button style="margin-left: 30px" type="submit">Update faculty
+      </button>
+
+    </form>
+  </div>
+
+</div>
+<div style="width: 50%; height: 50%; float: right; padding-right: 10%; padding-top: 3%">
+  <app-table (Click)="editModeOn($event)"
+             (Delete)="deleteFaculty($event)"
+             [columnsToDisplay]="['name', 'delete']" [columnsToIterate]="['name']"
+             [dataSource]="faculties"></app-table>
+</div>

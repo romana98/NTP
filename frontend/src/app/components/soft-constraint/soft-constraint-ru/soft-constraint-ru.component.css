@@ -1,0 +1,24 @@
+mat-form-field {
+  width: 13%;
+  padding-left: 30px;
+}
+
+mat-label {
+  isplay: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+::ng-deep .mat-tooltip {
+  font-size: 14px !important;
+}
+
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: unset;
+}
+
+::ng-deep .mat-option-pseudo-checkbox.mat-pseudo-checkbox-checked {
+  background-color: #69F0AE;
+}

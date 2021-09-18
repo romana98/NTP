@@ -1,0 +1,17 @@
+table {
+  width: 100%;
+}
+
+th.mat-header-cell {
+  text-align: center !important;
+  font-size: large;
+}
+
+td.mat-cell {
+  text-align: center !important;
+}
+
+::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+}

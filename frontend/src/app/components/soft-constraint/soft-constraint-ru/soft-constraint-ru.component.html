@@ -1,0 +1,80 @@
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Soft Constraints</h1>
+<mat-divider></mat-divider>
+<br><br>
+<div style=" float: top; padding-left: 10%;padding-right: 10%">
+  <app-table (Click)="editModeOn()"
+             [columnsToDisplay]="['monday', 'tuesday', 'wednesday','thursday', 'friday']"
+             [columnsToIterate]="['monday', 'tuesday', 'wednesday','thursday', 'friday']"
+             [dataSource]="scs"></app-table>
+
+</div>
+
+<br> <br><br> <br>
+
+<div style="float: bottom; font-size: large; padding-left: 10%;padding-right: 10%">
+
+  <div [hidden]="this.isHidden">
+
+    <mat-label style="display: flex; justify-content: center;align-items: center;flex-direction: column;">Update soft
+      constraints
+    </mat-label>
+
+    <br> <br>
+    <form (ngSubmit)="editSC()" [formGroup]="formEdit"
+          style="display: flex; justify-content: center;align-items: center;flex-direction: row;">
+
+      <mat-form-field>
+        <mat-label for="Monday">Monday:</mat-label>
+        <input [formControl]="$any(formEdit).controls.monday" matInput max="5" min="1" name="monday"
+               placeholder="Monday"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.monday.touched && formEdit.controls.monday.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="tuesday">Tuesday:</mat-label>
+        <input [formControl]="$any(formEdit).controls.tuesday" matInput max="5" min="1" name="tuesday"
+               placeholder="Tuesday"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.tuesday.touched && formEdit.controls.tuesday.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="wednesday">Wednesday:</mat-label>
+        <input [formControl]="$any(formEdit).controls.wednesday" matInput max="5" min="1" name="wednesday"
+               placeholder="Wednesday"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.wednesday.touched && formEdit.controls.wednesday.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="thursday">Thursday:</mat-label>
+        <input [formControl]="$any(formEdit).controls.thursday" matInput max="5" min="1" name="thursday"
+               placeholder="Thursday"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.thursday.touched && formEdit.controls.thursday.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="friday">Friday:</mat-label>
+        <input [formControl]="$any(formEdit).controls.friday" matInput max="5" min="1" name="friday"
+               placeholder="Friday"
+               type="number">
+        <mat-error *ngIf="formEdit.controls.friday.touched && formEdit.controls.friday.errors?.required">
+          This field can't be empty!
+        </mat-error>
+      </mat-form-field>
+      <br> <br>
+      <button [disabled]="!formEdit.valid" mat-raised-button style="margin-left: 30px;" type="submit">Update soft
+        constraint
+      </button>
+
+    </form>
+  </div>
+
+</div>
+
