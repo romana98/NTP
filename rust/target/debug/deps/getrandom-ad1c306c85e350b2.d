@@ -1,0 +1,11 @@
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\getrandom-ad1c306c85e350b2.rmeta: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\error.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\util.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\error_impls.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\windows.rs
+
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\libgetrandom-ad1c306c85e350b2.rlib: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\error.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\util.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\error_impls.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\windows.rs
+
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\getrandom-ad1c306c85e350b2.d: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\error.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\util.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\error_impls.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\windows.rs
+
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\lib.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\error.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\util.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\error_impls.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\getrandom-0.2.3\src\windows.rs:

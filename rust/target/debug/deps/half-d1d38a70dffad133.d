@@ -1,0 +1,12 @@
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\half-d1d38a70dffad133.rmeta: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\bfloat.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\bfloat\convert.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\binary16.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\binary16\convert.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\slice.rs
+
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\libhalf-d1d38a70dffad133.rlib: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\bfloat.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\bfloat\convert.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\binary16.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\binary16\convert.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\slice.rs
+
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\half-d1d38a70dffad133.d: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\bfloat.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\bfloat\convert.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\binary16.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\binary16\convert.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\slice.rs
+
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\lib.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\bfloat.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\bfloat\convert.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\binary16.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\binary16\convert.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\half-1.7.1\src\slice.rs:

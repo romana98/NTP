@@ -1,0 +1,11 @@
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\socket2-8a675e7fae76818e.rmeta: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\sockaddr.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\socket.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\utils.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\sys\windows.rs
+
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\libsocket2-8a675e7fae76818e.rlib: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\sockaddr.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\socket.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\utils.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\sys\windows.rs
+
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\socket2-8a675e7fae76818e.d: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\sockaddr.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\socket.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\utils.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\sys\windows.rs
+
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\lib.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\sockaddr.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\socket.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\utils.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\socket2-0.3.19\src\sys\windows.rs:

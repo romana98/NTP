@@ -1,0 +1,12 @@
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\miow-09e27d63b0316a1b.rmeta: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\handle.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\overlapped.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\iocp.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\net.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\pipe.rs
+
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\libmiow-09e27d63b0316a1b.rlib: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\handle.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\overlapped.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\iocp.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\net.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\pipe.rs
+
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\miow-09e27d63b0316a1b.d: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\handle.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\overlapped.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\iocp.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\net.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\pipe.rs
+
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\lib.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\handle.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\overlapped.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\iocp.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\net.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\miow-0.2.2\src\pipe.rs:

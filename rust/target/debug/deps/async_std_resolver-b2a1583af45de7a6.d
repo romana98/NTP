@@ -1,0 +1,10 @@
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\async_std_resolver-b2a1583af45de7a6.rmeta: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src/lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\net.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\runtime.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\time.rs
+
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\libasync_std_resolver-b2a1583af45de7a6.rlib: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src/lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\net.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\runtime.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\time.rs
+
+D:\FAX\VIII semestar\Napredne tehnike programiranja\NTP\rust\target\debug\deps\async_std_resolver-b2a1583af45de7a6.d: C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src/lib.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\net.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\runtime.rs C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\time.rs
+
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src/lib.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\net.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\runtime.rs:
+C:\Users\Romana\.cargo\registry\src\github.com-1ecc6299db9ec823\async-std-resolver-0.20.3\src\time.rs:
