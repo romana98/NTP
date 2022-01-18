@@ -12,7 +12,7 @@ export class HttpAuthInterceptor implements HttpInterceptor {
     if (localStorage.getItem('user')) {
       request = request.clone({
         setHeaders: {
-          Authorization: JSON.parse(<string>localStorage.getItem('user')).accessToken
+          Authorization: 'Bearer ' + JSON.parse(<string>localStorage.getItem('user')).accessToken
         }
       });
     }

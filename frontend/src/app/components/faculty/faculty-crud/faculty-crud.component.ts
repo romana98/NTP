@@ -55,7 +55,6 @@ export class FacultyCrudComponent implements OnInit {
       hardConstraint: [null, Validators.required],
       shifts: [null, Validators.required],
       lectures: [null, Validators.required],
-      staffList: [null, Validators.required],
       schedule: [null],
     });
   }
@@ -94,7 +93,7 @@ export class FacultyCrudComponent implements OnInit {
   editFaculty() {
     this.isHidden = true;
     this.facultyService.updateFaculty(new FacultyModel(this.formEdit.controls['id'].value, this.formEdit.controls['name'].value,
-      this.formEdit.controls['hardConstraint'].value, this.formEdit.controls['shifts'].value, this.formEdit.controls['staffList'].value,
+      this.formEdit.controls['hardConstraint'].value, this.formEdit.controls['shifts'].value, [],
       this.formEdit.controls['lectures'].value, this.formEdit.controls['schedule'].value)).toPromise().then(() => {
       this.snackBar.open("Successfully updated faculty", "Close", {duration: 2000});
       this.isHidden = true;
