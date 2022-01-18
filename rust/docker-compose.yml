@@ -1,0 +1,162 @@
+version: '3.8'
+services:  
+  staff:
+    image: postgres
+    container_name: staff
+    restart: always
+    environment:
+      POSTGRES_DB: staff
+      POSTGRES_USER: staff
+      POSTGRES_PASSWORD: baZa
+    ports: 
+      - "5434:5432"
+  faculty:
+    image: postgres
+    container_name: faculty
+    restart: always
+    environment:
+      POSTGRES_DB: faculty
+      POSTGRES_USER: faculty
+      POSTGRES_PASSWORD: baZa
+    ports: 
+      - "5433:5432"
+  lecture:
+    image: postgres
+    container_name: lecture
+    restart: always
+    environment:
+      POSTGRES_DB: lecture
+      POSTGRES_USER: lecture
+      POSTGRES_PASSWORD: baZa
+    ports: 
+      - "5435:5432"
+  schedule:
+    image: postgres
+    container_name: schedule
+    restart: always
+    environment:
+      POSTGRES_DB: schedule
+      POSTGRES_USER: schedule
+      POSTGRES_PASSWORD: baZa
+    ports: 
+      - "5436:5432"
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    image: api-gateway
+    container_name: api-gateway
+    restart: always
+    environment:
+      - ADDRESS=0.0.0.0
+      - PORT=8080
+      - LOG_STORAGE=/api-gateway/logs/logs.log
+      - JWT_SECRET=triMusketara!
+    ports:
+      - "8080:8080"
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    image: auth-service
+    container_name: auth-service
+    restart: always
+    depends_on:
+      -  staff
+    volumes:
+      - type: bind
+        source: D:/A/logs_auth_service.log
+        target: /auth-service/logs/logs.log
+    environment:
+      - ADDRESS=0.0.0.0
+      - PORT=8085
+      - DATABASE_URL=postgres://staff:baZa@staff/staff
+      - LOG_STORAGE=/auth-service/logs/logs.log
+      - JWT_SECRET=triMusketara!
+    ports:
+      - "8085:8085"
+  faculty-service:
+    build:
+      context: ./faculty-service
+      dockerfile: Dockerfile
+    image: faculty-service
+    container_name: faculty-service
+    restart: always
+    depends_on:
+      -  faculty
+    volumes:
+      - type: bind
+        source: D:/A/logs_faculty_service.log
+        target: /faculty-service/logs/logs.log
+    environment:
+      - ADDRESS=0.0.0.0
+      - PORT=8083
+      - DATABASE_URL=postgres://faculty:baZa@faculty/faculty
+      - LOG_STORAGE=/faculty-service/logs/logs.log
+      - JWT_SECRET=triMusketara!
+    ports:
+      - "8083:8083"
+  lecture-service:
+    build:
+      context: ./lecture-service
+      dockerfile: Dockerfile
+    image: lecture-service
+    container_name: lecture-service
+    restart: always
+    depends_on:
+      -  lecture
+    volumes:
+      - type: bind
+        source: D:/A/logs_lecture_service.log
+        target: /lecture-service/logs/logs.log
+    environment:
+      - ADDRESS=0.0.0.0
+      - PORT=8081
+      - DATABASE_URL=postgres://lecture:baZa@lecture/lecture
+      - LOG_STORAGE=/lecture-service/logs/logs.log
+      - JWT_SECRET=triMusketara!
+    ports:
+      - "8081:8081"
+  schedule-service:
+    build:
+      context: ./schedule-service
+      dockerfile: Dockerfile
+    image: schedule-service
+    container_name: schedule-service
+    restart: always
+    depends_on:
+      -  schedule
+    volumes:
+      - type: bind
+        source: D:/A/logs_schedule_service.log
+        target: /schedule-service/logs/logs.log
+    environment:
+      - ADDRESS=0.0.0.0
+      - PORT=8084
+      - DATABASE_URL=postgres://schedule:baZa@schedule/schedule
+      - LOG_STORAGE=/schedule-service/logs/logs.log
+      - JWT_SECRET=triMusketara!
+    ports:
+      - "8084:8084"
+  staff-service:
+    build:
+      context: ./staff-service
+      dockerfile: Dockerfile
+    image: staff-service
+    container_name: staff-service
+    restart: always
+    depends_on:
+      -  staff
+    volumes:
+      - type: bind
+        source: D:/A/logs_staff_service.log
+        target: /staff-service/logs/logs.log
+    environment:
+      - ADDRESS=0.0.0.0
+      - PORT=8082
+      - DATABASE_URL=postgres://staff:baZa@staff/staff
+      - LOG_STORAGE=/staff-service/logs/logs.log
+      - JWT_SECRET=triMusketara!
+    ports:
+      - "8082:8082"

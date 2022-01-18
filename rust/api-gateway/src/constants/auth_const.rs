@@ -1,0 +1,1 @@
+pub const LOGIN : &str = "/auth/log-in";

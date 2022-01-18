@@ -1,0 +1,9 @@
+pub mod auth_api;
+pub mod check;
+pub mod faculty_api;
+pub mod hard_constraints_api;
+pub mod lecture_api;
+pub mod schedule_api;
+pub mod shift_api;
+pub mod soft_constraints_api;
+pub mod staff_api;

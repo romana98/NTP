@@ -1,0 +1,10 @@
+{
+    "workbench.colorCustomizations": {
+        "list.hoverBackground": "#106b17",
+        "sideBar.foreground" : "#a9e6ae",
+        "icon.foreground": "#ff0000",
+        
+    },
+    "git.ignoreLimitWarning": true
+
+}
