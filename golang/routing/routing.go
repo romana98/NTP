@@ -14,7 +14,7 @@ func NewRouter() *mux.Router {
 	r.HandleFunc("/auth/log-in", handlers.LogIn).Methods(http.MethodPost)
 
 	//Admin
-	r.HandleFunc("/admins", handlers.NewAdminHandler).Methods(http.MethodPost)
+	r.HandleFunc("/health-check", handlers.Check).Methods(http.MethodGet)
 
 	//Shift
 	r.HandleFunc("/shifts", handlers.GetShifts).Methods(http.MethodGet)

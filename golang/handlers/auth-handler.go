@@ -129,6 +129,7 @@ func LogIn(w http.ResponseWriter, r *http.Request) {
 func checkToken(r *http.Request, acceptedRole string) int {
 
 	tokenString := r.Header.Get("Authorization")
+	tokenString = tokenString[7:] //remove Bearer
 
 	// Initialize a new instance of `Claims`
 	claims := &Claims{}

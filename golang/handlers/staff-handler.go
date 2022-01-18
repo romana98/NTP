@@ -98,15 +98,30 @@ func AddStaff(w http.ResponseWriter, r *http.Request) {
 		lectures = append(lectures, l)
 	}
 
-	faculty, _ := primitive.ObjectIDFromHex(newStaffDTO.Faculty)
+	facultyId, _ := primitive.ObjectIDFromHex(newStaffDTO.Faculty)
 
 	sc := data.NewSoftConstraint(generateSoftConstraint())
 
 	res, _ := data.SaveSoftConstraint(sc)
 
-	newStaff := data.NewStaff(newStaffDTO.Name, newStaffDTO.Surname, newStaffDTO.Email, lectures, res.InsertedID.(primitive.ObjectID), faculty)
+	newStaff := data.NewStaff(newStaffDTO.Name, newStaffDTO.Surname, newStaffDTO.Email, lectures, res.InsertedID.(primitive.ObjectID), facultyId)
 
 	res, err = data.SaveStaff(newStaff)
+	if err != nil {
+		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	faculty, err := data.GetFacultyById(facultyId)
+	if err != nil {
+		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	faculty.Staff = append(faculty.Staff, res.InsertedID.(primitive.ObjectID))
+	_, err = data.UpdateFaculty(&faculty)
 	if err != nil {
 		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
 		w.WriteHeader(http.StatusBadRequest)

@@ -139,7 +139,6 @@ func UpdateFaculty(w http.ResponseWriter, r *http.Request) {
 	schedule, err := primitive.ObjectIDFromHex(newFacultyDTO.Schedule)
 
 	shifts := make([]primitive.ObjectID, 0)
-	staff := make([]primitive.ObjectID, 0)
 	lectures := make([]primitive.ObjectID, 0)
 
 	for i := 0; i < len(newFacultyDTO.Shifts); i++ {
@@ -152,32 +151,6 @@ func UpdateFaculty(w http.ResponseWriter, r *http.Request) {
 		shifts = append(shifts, s)
 	}
 
-	for i := 0; i < len(newFacultyDTO.Staff); i++ {
-		s, err := primitive.ObjectIDFromHex(newFacultyDTO.Staff[i])
-		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-		staff = append(staff, s)
-	}
-
-	for i := 0; i < len(newFacultyDTO.Staff); i++ {
-		s, err := primitive.ObjectIDFromHex(newFacultyDTO.Staff[i])
-		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-		staff = append(staff, s)
-		staffUpdate, err := data.GetStaffById(s)
-		staffUpdate.Faculty = objID
-		_, err = data.UpdateStaff(&staffUpdate)
-		if err != nil {
-			return
-		}
-	}
-
 	for i := 0; i < len(newFacultyDTO.Lectures); i++ {
 		s, err := primitive.ObjectIDFromHex(newFacultyDTO.Lectures[i])
 		if err != nil {
@@ -188,7 +161,15 @@ func UpdateFaculty(w http.ResponseWriter, r *http.Request) {
 		lectures = append(lectures, s)
 	}
 
-	newFaculty := data.NewFaculty(newFacultyDTO.Name, hc, schedule, shifts, staff, lectures)
+	faculty, err := data.GetFacultyById(objID)
+
+	if err != nil {
+		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	newFaculty := data.NewFaculty(newFacultyDTO.Name, hc, schedule, shifts, faculty.Staff, lectures)
 	newFaculty.ID = objID
 	if err != nil {
 		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
