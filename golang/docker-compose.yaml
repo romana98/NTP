@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  mongo-db:
+    image: mongo
+    container_name: mongo-golang
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: user_db
+    ports:
+      - "27018:27017"
+
+  golang:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: golang
+    container_name: golang
+    depends_on:
+      - mongo-db
+    environment:
+      MONGODB_URI: mongodb://mongo-db
+    ports:
+      - '8080:8080'
