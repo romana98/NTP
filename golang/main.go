@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/joho/godotenv"
 	"github.com/romana98/NTP/data"
 	"github.com/romana98/NTP/routing"
 	"github.com/rs/cors"
@@ -13,6 +14,13 @@ import (
 )
 
 func main() {
+
+	// load .env file
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+	}
 
 	data.InitDatabase()
 
@@ -55,7 +63,7 @@ func main() {
 
 	// gracefully shutdown the server, waiting max 30 seconds for current operations to complete
 	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
-	err := s.Shutdown(ctx)
+	err = s.Shutdown(ctx)
 	if err != nil {
 		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
 		return

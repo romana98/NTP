@@ -22,7 +22,6 @@ var collectionAdmin,
 	collectionLecture *mongo.Collection
 
 const (
-	//port                       = "mongodb://localhost:27018"
 	name                       = "user_db"
 	collectionDBAdmin          = "admin"
 	collectionDBStaff          = "staff"
@@ -63,6 +62,7 @@ func pingDB(client *mongo.Client, ctx context.Context) bool {
 func InitDatabase() {
 
 	client, ctx, _, err := connectDB(os.Getenv("MONGODB_URI"))
+	log.New(os.Stdout, "MONGODB_URI: ", log.Ltime|log.Lshortfile).Println(os.Getenv("MONGODB_URI"))
 	if err != nil {
 		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
 		return
