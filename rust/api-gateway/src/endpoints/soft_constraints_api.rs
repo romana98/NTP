@@ -9,7 +9,7 @@ use awc;
 // UPDATE /soft-constraints
 pub async fn update_soft_constraints(sc_dto: web::Json<SoftConstrainstDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::STAFF_SERVICE, &staff_const::SC);
+    let url = format!("{}{}", *urls::STAFF_SERVICE, &staff_const::SC);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -30,7 +30,7 @@ pub async fn update_soft_constraints(sc_dto: web::Json<SoftConstrainstDTO>, req:
 // GET /soft-constraints
 pub async fn get_soft_constraints(req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::STAFF_SERVICE, &staff_const::SC);
+    let url = format!("{}{}", *urls::STAFF_SERVICE, &staff_const::SC);
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();

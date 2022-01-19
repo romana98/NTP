@@ -10,7 +10,7 @@ use awc;
 // POST /staff
 pub async fn create_staff(staff_dto: web::Json<StaffDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::STAFF_SERVICE, &staff_const::STAFF);
+    let url = format!("{}{}", *urls::STAFF_SERVICE, &staff_const::STAFF);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -28,7 +28,7 @@ pub async fn create_staff(staff_dto: web::Json<StaffDTO>, req: HttpRequest) -> H
             };
             
             let client = awc::Client::new();
-            let url = format!("{}{}", &urls::FACULTY_SERVICE, &staff_const::STAFF);
+            let url = format!("{}{}", *urls::FACULTY_SERVICE, &staff_const::STAFF);
             info!("{}", url);
             let token = req.headers().get("Authorization").unwrap().to_str().ok();
             let resp_faculty = client.post(url)
@@ -53,7 +53,7 @@ pub async fn create_staff(staff_dto: web::Json<StaffDTO>, req: HttpRequest) -> H
 // GET /staff/{id}
 pub async fn get_staff(id: Path<i32>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}{}", &urls::STAFF_SERVICE, &staff_const::STAFF_ID, id.into_inner());
+    let url = format!("{}{}{}", *urls::STAFF_SERVICE, &staff_const::STAFF_ID, id.into_inner());
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -74,7 +74,7 @@ pub async fn get_staff(id: Path<i32>, req: HttpRequest) -> HttpResponse {
 // GET /staff
 pub async fn get_all_staff(req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::STAFF_SERVICE, &staff_const::STAFF);
+    let url = format!("{}{}", *urls::STAFF_SERVICE, &staff_const::STAFF);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -95,7 +95,7 @@ pub async fn get_all_staff(req: HttpRequest) -> HttpResponse {
 // POST /lectures/by-staff
 pub async fn get_all_lectures_by_staff(req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url_staff = format!("{}{}", &urls::STAFF_SERVICE, &staff_const::STAFF_LECTURES);
+    let url_staff = format!("{}{}", *urls::STAFF_SERVICE, &staff_const::STAFF_LECTURES);
     info!("{}", url_staff);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -108,7 +108,7 @@ pub async fn get_all_lectures_by_staff(req: HttpRequest) -> HttpResponse {
             let ids = &response.json::<IdsDTO>().await.unwrap();
             
             let client = awc::Client::new();
-            let url = format!("{}{}", &urls::LECTURE_SERVICE, &lecture_const::LECTURES_IDS);
+            let url = format!("{}{}", *urls::LECTURE_SERVICE, &lecture_const::LECTURES_IDS);
             info!("{}", url);
             let token = req.headers().get("Authorization").unwrap().to_str().ok();
             let resp_lecture = client.post(url)
@@ -134,7 +134,7 @@ pub async fn get_all_lectures_by_staff(req: HttpRequest) -> HttpResponse {
 // UPDATE /staff
 pub async fn update_staff(staff_dto: web::Json<StaffDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::STAFF_SERVICE, &staff_const::STAFF);
+    let url = format!("{}{}", *urls::STAFF_SERVICE, &staff_const::STAFF);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -152,7 +152,7 @@ pub async fn update_staff(staff_dto: web::Json<StaffDTO>, req: HttpRequest) -> H
             };
             
             let client = awc::Client::new();
-            let url = format!("{}{}", &urls::FACULTY_SERVICE, &staff_const::STAFF);
+            let url = format!("{}{}", *urls::FACULTY_SERVICE, &staff_const::STAFF);
             info!("{}", url);
             let token = req.headers().get("Authorization").unwrap().to_str().ok();
             let resp_faculty = client.put(url)
@@ -178,7 +178,7 @@ pub async fn update_staff(staff_dto: web::Json<StaffDTO>, req: HttpRequest) -> H
 pub async fn delete_staff(id: Path<i32>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
     let staff_id = id.into_inner();
-    let url = format!("{}{}{}", &urls::STAFF_SERVICE, &staff_const::STAFF_ID, staff_id);
+    let url = format!("{}{}{}", *urls::STAFF_SERVICE, &staff_const::STAFF_ID, staff_id);
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -188,7 +188,7 @@ pub async fn delete_staff(id: Path<i32>, req: HttpRequest) -> HttpResponse {
                 .await;
     match resp {
         Ok(response) => {
-            let url_faculty = format!("{}{}{}", &urls::FACULTY_SERVICE, &staff_const::STAFF_ID, staff_id);
+            let url_faculty = format!("{}{}{}", *urls::FACULTY_SERVICE, &staff_const::STAFF_ID, staff_id);
             let resp_faculty = client.delete(url_faculty)
                         .header("Authorization", token.unwrap())
                         .send()

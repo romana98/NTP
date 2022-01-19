@@ -11,7 +11,7 @@ use awc;
 // POST /hard_constraints
 pub async fn create_hard_constraint(hard_constraint_dto: web::Json<HardConstraintDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::FACULTY_SERVICE, &faculty_const::HC);
+    let url = format!("{}{}", *urls::FACULTY_SERVICE, &faculty_const::HC);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -32,7 +32,7 @@ pub async fn create_hard_constraint(hard_constraint_dto: web::Json<HardConstrain
 // GET /hard_constraints/{id}
 pub async fn get_hard_constraint(id: Path<i32>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}{}", &urls::FACULTY_SERVICE, &faculty_const::HC_ID, id.into_inner());
+    let url = format!("{}{}{}", *urls::FACULTY_SERVICE, &faculty_const::HC_ID, id.into_inner());
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -53,7 +53,7 @@ pub async fn get_hard_constraint(id: Path<i32>, req: HttpRequest) -> HttpRespons
 // GET /hard_constraints
 pub async fn get_all_hard_constraints(req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::FACULTY_SERVICE, &faculty_const::HC);
+    let url = format!("{}{}", *urls::FACULTY_SERVICE, &faculty_const::HC);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -74,7 +74,7 @@ pub async fn get_all_hard_constraints(req: HttpRequest) -> HttpResponse {
 // DELETE /hard_constraints/{id}
 pub async fn delete_hard_constraint(id: Path<i32>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}{}", &urls::FACULTY_SERVICE, &faculty_const::HC_ID, id.into_inner());
+    let url = format!("{}{}{}", *urls::FACULTY_SERVICE, &faculty_const::HC_ID, id.into_inner());
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -95,7 +95,7 @@ pub async fn delete_hard_constraint(id: Path<i32>, req: HttpRequest) -> HttpResp
 // UPDATE /hard_constraints
 pub async fn update_hard_constraint(hard_constraint_dto: web::Json<HardConstraintDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::FACULTY_SERVICE, &faculty_const::HC);
+    let url = format!("{}{}", *urls::FACULTY_SERVICE, &faculty_const::HC);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();

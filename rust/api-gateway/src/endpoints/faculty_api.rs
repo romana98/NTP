@@ -11,7 +11,7 @@ use awc;
 // POST /faculties
 pub async fn create_faculty(faculty_dto: web::Json<FacultyDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::FACULTY_SERVICE, &faculty_const::FACUTIES);
+    let url = format!("{}{}", *urls::FACULTY_SERVICE, &faculty_const::FACUTIES);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -32,7 +32,7 @@ pub async fn create_faculty(faculty_dto: web::Json<FacultyDTO>, req: HttpRequest
 // GET /faculties/{id}
 pub async fn get_faculty(id: Path<i32>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}{}", &urls::FACULTY_SERVICE, &faculty_const::FACUTIES_ID, id.into_inner());
+    let url = format!("{}{}{}", *urls::FACULTY_SERVICE, &faculty_const::FACUTIES_ID, id.into_inner());
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -53,7 +53,7 @@ pub async fn get_faculty(id: Path<i32>, req: HttpRequest) -> HttpResponse {
 // GET /faculties
 pub async fn get_all_faculties(req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::FACULTY_SERVICE, &faculty_const::FACUTIES);
+    let url = format!("{}{}", *urls::FACULTY_SERVICE, &faculty_const::FACUTIES);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -78,7 +78,7 @@ pub async fn delete_faculty(id: Path<i32>, req: HttpRequest) -> HttpResponse {
 
     let faculty_id = id.into_inner();
 
-    let url = format!("{}{}{}", &urls::FACULTY_SERVICE, &faculty_const::FACUTIES_ID, faculty_id);
+    let url = format!("{}{}{}", *urls::FACULTY_SERVICE, &faculty_const::FACUTIES_ID, faculty_id);
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -89,7 +89,7 @@ pub async fn delete_faculty(id: Path<i32>, req: HttpRequest) -> HttpResponse {
     match resp {
         Ok(response) => {
             let client = awc::Client::new();
-            let url = format!("{}{}{}", &urls::STAFF_SERVICE, &faculty_const::STAFF_FACULTY_ID, faculty_id);
+            let url = format!("{}{}{}", *urls::STAFF_SERVICE, &faculty_const::STAFF_FACULTY_ID, faculty_id);
             info!("{}", url);
             let token = req.headers().get("Authorization").unwrap().to_str().ok();
             let resp_faculty = client.delete(url)
@@ -114,7 +114,7 @@ pub async fn delete_faculty(id: Path<i32>, req: HttpRequest) -> HttpResponse {
 // UPDATE /faculties
 pub async fn update_faculty(faculty_dto: web::Json<FacultyDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::FACULTY_SERVICE, &faculty_const::FACUTIES);
+    let url = format!("{}{}", *urls::FACULTY_SERVICE, &faculty_const::FACUTIES);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();

@@ -11,7 +11,7 @@ use awc;
 // POST /lectures
 pub async fn create_lecture(lecture_dto: web::Json<LectureDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::LECTURE_SERVICE, &lecture_const::LECTURES);
+    let url = format!("{}{}", *urls::LECTURE_SERVICE, &lecture_const::LECTURES);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -32,7 +32,7 @@ pub async fn create_lecture(lecture_dto: web::Json<LectureDTO>, req: HttpRequest
 // GET /lectures/{id}
 pub async fn get_lecture(id: Path<i32>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}{}", &urls::LECTURE_SERVICE, &lecture_const::LECTURES_ID, id.into_inner());
+    let url = format!("{}{}{}", *urls::LECTURE_SERVICE, &lecture_const::LECTURES_ID, id.into_inner());
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -53,7 +53,7 @@ pub async fn get_lecture(id: Path<i32>, req: HttpRequest) -> HttpResponse {
 // GET /lectures
 pub async fn get_all_lectures(req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::LECTURE_SERVICE, &lecture_const::LECTURES);
+    let url = format!("{}{}", *urls::LECTURE_SERVICE, &lecture_const::LECTURES);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -74,7 +74,7 @@ pub async fn get_all_lectures(req: HttpRequest) -> HttpResponse {
 // POST /lectures/by-ids
 pub async fn get_all_lectures_by_ids(ids_vec: web::Json<Vec<String>>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::LECTURE_SERVICE, &lecture_const::LECTURES_IDS);
+    let url = format!("{}{}",*urls::LECTURE_SERVICE, &lecture_const::LECTURES_IDS);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -99,7 +99,7 @@ pub async fn get_all_lectures_by_ids(ids_vec: web::Json<Vec<String>>, req: HttpR
 pub async fn delete_lecture(id: Path<i32>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
     let id_lecture = id.into_inner();
-    let url = format!("{}{}{}", &urls::LECTURE_SERVICE, &lecture_const::LECTURES_ID, id_lecture);
+    let url = format!("{}{}{}", *urls::LECTURE_SERVICE, &lecture_const::LECTURES_ID, id_lecture);
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -109,7 +109,7 @@ pub async fn delete_lecture(id: Path<i32>, req: HttpRequest) -> HttpResponse {
                 .await;
     match resp {
         Ok(response) => {
-            let url_staff = format!("{}{}{}", &urls::STAFF_SERVICE, &lecture_const::LECTURES_ID, id_lecture);
+            let url_staff = format!("{}{}{}", *urls::STAFF_SERVICE, &lecture_const::LECTURES_ID, id_lecture);
             let resp_staff = client.delete(url_staff)
                         .header("Authorization", token.unwrap())
                         .send()
@@ -117,7 +117,7 @@ pub async fn delete_lecture(id: Path<i32>, req: HttpRequest) -> HttpResponse {
             
             match resp_staff {
                 Ok(_) => {
-                    let url_faculty = format!("{}{}{}", &urls::FACULTY_SERVICE, &lecture_const::LECTURES_ID, id_lecture);
+                    let url_faculty = format!("{}{}{}", *urls::FACULTY_SERVICE, &lecture_const::LECTURES_ID, id_lecture);
                     let resp_faculty = client.delete(url_faculty)
                                 .header("Authorization", token.unwrap())
                                 .send()
@@ -146,7 +146,7 @@ pub async fn delete_lecture(id: Path<i32>, req: HttpRequest) -> HttpResponse {
 // UPDATE /lectures
 pub async fn update_lecture(lecture_dto: web::Json<LectureDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::LECTURE_SERVICE, &lecture_const::LECTURES);
+    let url = format!("{}{}", *urls::LECTURE_SERVICE, &lecture_const::LECTURES);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();

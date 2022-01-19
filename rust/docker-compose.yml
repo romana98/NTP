@@ -53,6 +53,11 @@ services:
       - PORT=8080
       - LOG_STORAGE=/api-gateway/logs/logs.log
       - JWT_SECRET=triMusketara!
+      - LECTURE_SERVICE=http://lecture-service:8081
+      - STAFF_SERVICE=http://staff-service:8082
+      - FACULTY_SERVICE=http://faculty-service:8083
+      - SCHEDULE_SERVICE=http://schedule-service:8084
+      - AUTH_SERVICE=http://auth-service:8085
     ports:
       - "8080:8080"
   auth-service:

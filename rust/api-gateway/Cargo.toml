@@ -19,3 +19,5 @@ log4rs = "1.0.0"
 actix-cors = "0.5.4"
 actix-web = "3.3.2"
 awc = "2.0.3"
+
+lazy_static = "1.4.0"

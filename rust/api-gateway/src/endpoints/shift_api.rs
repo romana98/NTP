@@ -11,7 +11,7 @@ use awc;
 // POST /shifts
 pub async fn create_shift(shift_dto: web::Json<ShiftDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::FACULTY_SERVICE, &faculty_const::SHIFTS);
+    let url = format!("{}{}", *urls::FACULTY_SERVICE, &faculty_const::SHIFTS);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -32,7 +32,7 @@ pub async fn create_shift(shift_dto: web::Json<ShiftDTO>, req: HttpRequest) -> H
 // GET /shifts/{id}
 pub async fn get_shift(id: Path<i32>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}{}", &urls::FACULTY_SERVICE, &faculty_const::SHIFTS_ID, id.into_inner());
+    let url = format!("{}{}{}", *urls::FACULTY_SERVICE, &faculty_const::SHIFTS_ID, id.into_inner());
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -53,7 +53,7 @@ pub async fn get_shift(id: Path<i32>, req: HttpRequest) -> HttpResponse {
 // GET /shifts
 pub async fn get_all_shifts(req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::FACULTY_SERVICE, &faculty_const::SHIFTS);
+    let url = format!("{}{}", *urls::FACULTY_SERVICE, &faculty_const::SHIFTS);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -74,7 +74,7 @@ pub async fn get_all_shifts(req: HttpRequest) -> HttpResponse {
 // DELETE /shifts/{id}
 pub async fn delete_shift(id: Path<i32>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}{}", &urls::FACULTY_SERVICE, &faculty_const::SHIFTS_ID, id.into_inner());
+    let url = format!("{}{}{}", *urls::FACULTY_SERVICE, &faculty_const::SHIFTS_ID, id.into_inner());
     info!("{}", url);
     
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
@@ -95,7 +95,7 @@ pub async fn delete_shift(id: Path<i32>, req: HttpRequest) -> HttpResponse {
 // UPDATE /shifts
 pub async fn update_shift(shift_dto: web::Json<ShiftDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
-    let url = format!("{}{}", &urls::FACULTY_SERVICE, &faculty_const::SHIFTS);
+    let url = format!("{}{}", *urls::FACULTY_SERVICE, &faculty_const::SHIFTS);
     info!("{}", url);
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
