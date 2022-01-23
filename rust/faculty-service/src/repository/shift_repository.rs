@@ -44,3 +44,8 @@ pub fn delete_shift(shift_id: i32, conn: &PgConnection) -> QueryResult<usize> {
         Err(Error::NotFound)
     }
 }
+
+pub fn get_all_shifts_by_ids(ids: Vec<i32>, conn: &PgConnection) -> QueryResult<Vec<Shift>> {
+    info!("  Gettinng all lectures by ids");
+    shifts.filter(id.eq_any(ids)).load::<Shift>(conn)
+}

@@ -7,7 +7,7 @@ pub struct SoftConstraint {
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct SoftConstrainstDTO {
+pub struct SoftConstraintsDTO {
     pub id: String,
     pub prefers: HashMap<String, i32>
 }

@@ -1,7 +1,7 @@
 use crate::{
     config::db::Pool,
     models::{
-        soft_constraint::{SoftConstrainstDTO}
+        soft_constraint::{SoftConstraintsDTO}
     },
     services::soft_constraints_service,
     utils::{response_util, token_util},
@@ -29,7 +29,7 @@ pub async fn get_soft_constraints(pool: web::Data<Pool>, http_request: HttpReque
 }
 
 // UPDATE /soft-constraints
-pub async fn update_soft_constraints(sc_dto: web::Json<SoftConstrainstDTO>, pool: web::Data<Pool>, details: AuthDetails) -> Result<HttpResponse, Error> {
+pub async fn update_soft_constraints(sc_dto: web::Json<SoftConstraintsDTO>, pool: web::Data<Pool>, details: AuthDetails) -> Result<HttpResponse, Error> {
     info!("   Update soft constraints requested");
 
     match details.has_permission(&role::Role::Staff.to_string()) {

@@ -70,5 +70,12 @@ pub fn config_services(cfg: &mut web::ServiceConfig) {
                             .route(web::delete().to(staff_faculty_api::delete_staff_faculty))
                     )
             )
+            .service(
+                web::scope("/schedule")
+                    .service(
+                        web::resource("/{id}")
+                            .route(web::get().to(schedule_api::get_faculty))
+                    )
+            )
     );
 }

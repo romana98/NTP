@@ -1,6 +1,6 @@
 use std::env;
 use actix_web::{error, Error, HttpResponse};
-use crate::models::{staff::StaffDTO, /*soft_constraint::SoftConstrainstDTO*/};
+use crate::models::{staff::StaffDTO};
 
 pub fn error_response(error: diesel::result::Error) -> Error {
     match error {

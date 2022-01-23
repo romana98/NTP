@@ -2,7 +2,9 @@ use crate::{
     config::db::Pool,
     models::{ 
         staff::{StaffDTO, Staff, NewStaff}, 
-        lectures_staffs::{NewLecturesStaff, IdsDTO}
+        lectures_staffs::{NewLecturesStaff, IdsDTO},
+        schedule::{StaffSchedule},
+        soft_constraint::{SoftConstraintsDTO}
     },
     utils::{response_util},
     repository::{staff_repository, lectures_staff_repository, soft_constraints_repository, prefers_repository},
@@ -10,6 +12,7 @@ use crate::{
 };
 use actix_web::{web, Error as ActixError};
 use diesel::result::Error;
+use std::collections::HashMap;
 use std::vec::Vec;
 use bcrypt::{hash, DEFAULT_COST};
 
@@ -54,20 +57,20 @@ pub fn create_staff(staff_dto: StaffDTO, pool: &web::Data<Pool>) -> Result<Staff
     match result {
         Ok(res_staff) => {
             
-            let mut lectues_dto = Vec::new();
+            let mut lectures_dto = Vec::new();
             
             //add lectures
-            let mut lectues = Vec::new();
+            let mut lectures = Vec::new();
             
             for lec in staff_dto.lectures {
                 let lecture = NewLecturesStaff{
                     lecture_id: lec.parse::<i32>().unwrap(),
                     staff_id: res_staff.id
                 };
-                lectues_dto.push(lec);
-                lectues.push(lecture);
+                lectures_dto.push(lec);
+                lectures.push(lecture);
             }
-            let res_l = lectures_staff_repository::create_lectures_staff(lectues, &connection);
+            let res_l = lectures_staff_repository::create_lectures_staff(lectures, &connection);
             if res_l.is_err(){
                 return res_l.map(|_|  StaffDTO {id: "-1".to_string(), name: "".to_string(), surname: "".to_string(), email: "".to_string(),
                                                 faculty: "-1".to_string(), lectures: Vec::new()})
@@ -80,7 +83,7 @@ pub fn create_staff(staff_dto: StaffDTO, pool: &web::Data<Pool>) -> Result<Staff
             surname: res_staff.surname,
             email: res_staff.email,
             faculty: res_staff.faculty.to_string(),
-            lectures: lectues_dto 
+            lectures: lectures_dto 
         })
         
     },
@@ -93,14 +96,14 @@ pub fn get_staff(id: i32, pool: &web::Data<Pool>) -> Result<StaffDTO, Error> {
   
     let connection = pool.get().expect("Connection from pool");
 
-    let mut lectues_dto = Vec::new();
+    let mut lectures_dto = Vec::new();
     let lectures = lectures_staff_repository::get_lectures_staff_by_staff_id(id, &connection);
 
 
     match lectures {
         Ok(lectures) => {
             for lecture in lectures {
-                lectues_dto.push(lecture.lecture_id.to_string());
+                lectures_dto.push(lecture.lecture_id.to_string());
             }
         }
         Err(_) => ()
@@ -115,7 +118,7 @@ pub fn get_staff(id: i32, pool: &web::Data<Pool>) -> Result<StaffDTO, Error> {
             surname: res.surname,
             email: res.email,
             faculty: res.faculty.to_string(),
-            lectures: lectues_dto 
+            lectures: lectures_dto 
         }),
         Err(e) => Err(e),
     }
@@ -266,3 +269,63 @@ pub fn delete_staff_by_faculty(faculty_id: i32, pool: &web::Data<Pool>) -> Resul
     Ok( "   Staff successfully deleted!".to_string())
 }
 
+pub fn get_staff_by_faculty(id: i32, pool: &web::Data<Pool>) -> Result<Vec<StaffSchedule>, Error> {
+    info!("{}", format!("   Getting staff {}", id));
+  
+    let connection = pool.get().expect("Connection from pool");
+    
+    let result = staff_repository::get_all_staff_by_faculty(id, &connection);
+
+    match result {
+        Ok(res) =>{ 
+            let mut vec_staff = Vec::new();
+
+            for staff in res { 
+
+                let mut lectures_dto = Vec::new();
+                let lectures = lectures_staff_repository::get_lectures_staff_by_staff_id(staff.id, &connection);
+            
+                if lectures.is_err(){
+                    return lectures.map(|_| Vec::new())
+                             .map_err(|error| error);
+            
+                 }else if let Ok(lecs) = lectures.as_ref() {
+                    for lecture in lecs {
+                        lectures_dto.push(lecture.lecture_id);
+                    }
+                 }
+
+                let result_sc = soft_constraints_repository::get_soft_constraints(staff.soft_constraints, &connection);
+
+                let mut soft_constraint = SoftConstraintsDTO{id: "".to_string(), prefers: HashMap::new()};
+
+                if result_sc.is_err(){
+                    return result_sc.map(|_| Vec::new())
+                             .map_err(|error| error);
+
+                 }else if let Ok(sc) = result_sc {
+                    let prefers = prefers_repository::get_prefers(id, &connection).unwrap();
+                    let mut prefers_map = HashMap::new();
+                
+                    for prefer in prefers {
+                        prefers_map.insert(prefer.day, prefer.num);
+                    }
+                
+                    soft_constraint = SoftConstraintsDTO{id: sc.id.to_string(), prefers: prefers_map};
+                 }
+
+                let dto = StaffSchedule{
+                    id: staff.id,
+                    name: staff.name,
+                    surname: staff.surname,
+                    soft_constraint: soft_constraint,
+                    lectures: lectures_dto 
+                };
+                vec_staff.push(dto);
+            }
+            
+            Ok(vec_staff)
+        },
+        Err(e) => Err(e),
+    }
+}

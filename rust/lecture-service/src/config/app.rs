@@ -30,7 +30,14 @@ pub fn config_services(cfg: &mut web::ServiceConfig) {
                         web::resource("/{id}")
                             .route(web::get().to(lecture_api::get_lecture))
                             .route(web::delete().to(lecture_api::delete_lecture))
-                    )   
+                    )
             )
+            .service(
+                web::scope("/schedule")
+                    .service(
+                        web::resource("")
+                            .route(web::post().to(schedule_api::get_all_lectures_by_ids))
+                    )
+            )   
     );
 }

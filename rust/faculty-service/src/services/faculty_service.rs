@@ -1,8 +1,10 @@
 use crate::{
     config::db::Pool,
-    models::{faculty::{FacultyDTO, Faculty, NewFaculty}, lectures_faculty::{NewLecturesFaculty}, shifts_faculty::{NewShiftsFaculty}},
+    models::{faculty::{FacultyDTO, Faculty, NewFaculty}, lectures_faculty::{NewLecturesFaculty}, 
+            shifts_faculty::{NewShiftsFaculty}, schedule::{FacultySchedule}, hard_constraints::{HardConstraintDTO},
+            shift::{ShiftDTO}},
     utils::{response_util},
-    repository::{faculty_repository, staff_faculty_repository, shifts_faculty_repository, lectures_faculty_repository},
+    repository::{faculty_repository, staff_faculty_repository, shifts_faculty_repository, lectures_faculty_repository, shift_repository, hard_constraints_repository},
 };
 use actix_web::{web, Error as ActixError};
 use diesel::result::Error;
@@ -332,6 +334,106 @@ pub fn get_all_faculties(pool: &web::Data<Pool>) -> Result<Vec<FacultyDTO>, Erro
             }    
         }
         Ok(vec_faculties)},
+        Err(e) => Err(e),
+    }
+}
+
+pub fn get_faculty_for_schedule(id: i32, pool: &web::Data<Pool>) -> Result<FacultySchedule, Error> {
+    info!("{}", format!("   Getting faculty {}", id));
+  
+    let connection = pool.get().expect("Connection from pool");
+
+    let mut lectures_dto = Vec::new();
+    let mut staff_dto = Vec::new();
+    let mut shifts_dto = Vec::new();
+    let mut shifts_ids = Vec::new();
+
+    let lectures = lectures_faculty_repository::get_lectures_faculty_by_faculty_id(id, &connection);
+
+    match lectures {
+        Ok(lectures) => {
+            for lecture in lectures {
+                lectures_dto.push(lecture.lecture_id);
+            }
+        }
+        Err(_) => ()
+    }
+
+    let staff = staff_faculty_repository::get_staff_faculty_by_faculty_id(id, &connection);
+
+
+    match staff {
+        Ok(staff) => {
+            for st in staff {
+                staff_dto.push(st.staff_id);
+            }
+        }
+        Err(_) => ()
+    }
+
+    let shifts_faculty = shifts_faculty_repository::get_shifts_faculty_by_faculty_id(id, &connection);
+
+
+    match shifts_faculty {
+        Ok(shifts) => {
+            for sh in shifts {
+                shifts_ids.push(sh.shift_id);
+            }
+        }
+        Err(_) => ()
+    }
+
+    let shifts = shift_repository::get_all_shifts_by_ids(shifts_ids, &connection);
+
+    if shifts.is_err(){
+        return shifts.map(|_|  FacultySchedule {id: -1, name: "".to_string(), 
+                                            hard_constraint: HardConstraintDTO{id:"".to_string(), daily_max: -1, max_per_shift: -1, weekly_max: -1, weekly_min: -1},
+                                            shifts: Vec::new(), staff: Vec::new(), lectures: Vec::new()})
+                 .map_err(|error| error);
+     }else if let Ok(shifts_vec) = shifts {
+        for shift in shifts_vec {
+            shifts_dto.push(ShiftDTO{
+                id: shift.id.to_string(),
+                day: shift.day,
+                start: shift.start_shift,
+                end: shift.end_shift
+            });
+        }
+     }
+
+    let result = faculty_repository::get_faculty(id, &connection);
+
+    match result {
+        Ok(res) => {
+            let mut hc = HardConstraintDTO{id:"".to_string(), daily_max: -1, max_per_shift: -1, weekly_max: -1, weekly_min: -1};
+            let hc_result = hard_constraints_repository::get_hard_constraint(res.hard_constraint_id, &connection);
+
+            if hc_result.is_err(){
+                return hc_result.map(|_|  FacultySchedule {id: -1, name: "".to_string(), 
+                                                    hard_constraint: HardConstraintDTO{id:"".to_string(), daily_max: -1, max_per_shift: -1, weekly_max: -1, weekly_min: -1},
+                                                    shifts: Vec::new(), staff: Vec::new(), lectures: Vec::new()})
+                         .map_err(|error| error);
+            }else if let Ok(hard_const) = hc_result.as_ref() {
+                
+                   hc = HardConstraintDTO{
+                        id: hard_const.id.to_string(),
+                        daily_max: hard_const.daily_max,
+                        weekly_min: hard_const.weekly_min,
+                        weekly_max: hard_const.weekly_max,
+                        max_per_shift: hard_const.max_per_shift
+                    };
+             }
+             
+            Ok(FacultySchedule{
+                id: res.id,
+                name: res.name,
+                hard_constraint: hc,
+                lectures: lectures_dto,
+                staff: staff_dto,
+                shifts: shifts_dto}
+            )
+            
+        },
         Err(e) => Err(e),
     }
 }

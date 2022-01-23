@@ -142,6 +142,9 @@ services:
       - DATABASE_URL=postgres://schedule:baZa@schedule/schedule
       - LOG_STORAGE=/schedule-service/logs/logs.log
       - JWT_SECRET=triMusketara!
+      - LECTURE_SERVICE=http://lecture-service:8081
+      - STAFF_SERVICE=http://staff-service:8082
+      - FACULTY_SERVICE=http://faculty-service:8083
     ports:
       - "8084:8084"
   staff-service:

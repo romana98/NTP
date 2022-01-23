@@ -1,6 +1,6 @@
 use crate::{
     config::db::Pool,
-    models::lecture::{LectureDTO, Lecture, NewLecture},
+    models::{lecture::{LectureDTO, Lecture, NewLecture}, schedule::{LectureSchedule}},
     utils::{response_util},
     repository::lecture_repository,
 };
@@ -116,6 +116,30 @@ pub fn get_all_lectures_by_ids(ids: Vec<String>, pool: &web::Data<Pool>) -> Resu
         for lec in res {
             let dto = LectureDTO{
                 id: lec.id.to_string(),
+                name: lec.name,
+                number_of_times: lec.number_of_times
+            };
+            vec_lectures.push(dto);
+        }
+        Ok(vec_lectures)},
+        Err(e) => Err(e),
+    }
+}
+
+pub fn get_all_lectures_by_ids_schedule(ids: Vec<i32>, pool: &web::Data<Pool>) -> Result<Vec<LectureSchedule>, Error> {
+    info!("   Get all lectures by ids");
+  
+    let connection = pool.get().expect("Connection from pool");
+
+    let result = lecture_repository::get_all_lectures_by_ids(ids, &connection);
+
+    match result {
+        Ok(res) => {
+        let mut vec_lectures = Vec::new();
+        
+        for lec in res {
+            let dto = LectureSchedule{
+                id: lec.id,
                 name: lec.name,
                 number_of_times: lec.number_of_times
             };

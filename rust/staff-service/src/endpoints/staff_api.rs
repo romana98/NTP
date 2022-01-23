@@ -108,7 +108,7 @@ pub async fn delete_staff(id: Path<i32>, pool: Data<Pool>, details: AuthDetails)
 
 // DELETE /staff/faculty/{id} //id = faculty_id
 pub async fn delete_staff_by_faculty(id: Path<i32>, pool: Data<Pool>, details: AuthDetails) -> Result<HttpResponse, Error> {
-    info!("   Deleting lecture requested");
+    info!("   Deleting staff requested");
 
     match details.has_permission(&role::Role::Admin.to_string()) {
         true => {
