@@ -45,9 +45,13 @@ services:
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
-    image: api-gateway
+    image: romana98/api-gateway
     container_name: api-gateway
     restart: always
+    volumes:
+      - type: bind
+        source: D:/A/logs_api_gateway.log
+        target: /api-gateway/logs/logs.log
     environment:
       - ADDRESS=0.0.0.0
       - PORT=8080
@@ -64,7 +68,7 @@ services:
     build:
       context: ./auth-service
       dockerfile: Dockerfile
-    image: auth-service
+    image: romana98/auth-service
     container_name: auth-service
     restart: always
     depends_on:
@@ -85,7 +89,7 @@ services:
     build:
       context: ./faculty-service
       dockerfile: Dockerfile
-    image: faculty-service
+    image: romana98/faculty-service
     container_name: faculty-service
     restart: always
     depends_on:
@@ -106,7 +110,7 @@ services:
     build:
       context: ./lecture-service
       dockerfile: Dockerfile
-    image: lecture-service
+    image: romana98/lecture-service
     container_name: lecture-service
     restart: always
     depends_on:
@@ -127,7 +131,7 @@ services:
     build:
       context: ./schedule-service
       dockerfile: Dockerfile
-    image: schedule-service
+    image: romana98/schedule-service
     container_name: schedule-service
     restart: always
     depends_on:
@@ -151,7 +155,7 @@ services:
     build:
       context: ./staff-service
       dockerfile: Dockerfile
-    image: staff-service
+    image: romana98/staff-service
     container_name: staff-service
     restart: always
     depends_on:

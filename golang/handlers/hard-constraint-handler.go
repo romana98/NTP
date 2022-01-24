@@ -5,10 +5,9 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/romana98/NTP/data"
 	"github.com/romana98/NTP/enum"
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"log"
 	"net/http"
-	"os"
 )
 
 func GetHardConstraints(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +20,7 @@ func GetHardConstraints(w http.ResponseWriter, r *http.Request) {
 	hcs, err := data.GetAllHardConstraints()
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -30,7 +29,7 @@ func GetHardConstraints(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(hcs)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -56,7 +55,7 @@ func GetHardConstraint(w http.ResponseWriter, r *http.Request) {
 	hc, err := data.GetHardConstraintById(idObj)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -65,7 +64,7 @@ func GetHardConstraint(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(hc)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -86,21 +85,21 @@ func AddHardConstraint(w http.ResponseWriter, r *http.Request) {
 	var newHardConstraint data.HardConstraint
 	err := decoder.Decode(&newHardConstraint)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	res, err := data.SaveHardConstraint(&newHardConstraint)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	hc, err := data.GetHardConstraintById(res.InsertedID.(primitive.ObjectID))
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -108,7 +107,7 @@ func AddHardConstraint(w http.ResponseWriter, r *http.Request) {
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(hc)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -128,7 +127,7 @@ func UpdateHardConstraint(w http.ResponseWriter, r *http.Request) {
 	var newHardConstraintDTO HardConstraintDTO
 	err := decoder.Decode(&newHardConstraintDTO)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -136,14 +135,14 @@ func UpdateHardConstraint(w http.ResponseWriter, r *http.Request) {
 	newHardConstraint := data.NewHardConstraint(newHardConstraintDTO.DailyMax, newHardConstraintDTO.WeeklyMax, newHardConstraintDTO.WeeklyMin, newHardConstraintDTO.MaxPerShift)
 	newHardConstraint.ID, err = primitive.ObjectIDFromHex(newHardConstraintDTO.ID)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	_, err = data.UpdateHardConstraint(newHardConstraint)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -151,7 +150,7 @@ func UpdateHardConstraint(w http.ResponseWriter, r *http.Request) {
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(newHardConstraint)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -176,7 +175,7 @@ func DeleteHardConstraint(w http.ResponseWriter, r *http.Request) {
 	_, err = data.DeleteHardConstraint(idObj)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}

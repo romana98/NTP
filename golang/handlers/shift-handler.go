@@ -5,10 +5,9 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/romana98/NTP/data"
 	"github.com/romana98/NTP/enum"
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"log"
 	"net/http"
-	"os"
 )
 
 func GetShifts(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +20,7 @@ func GetShifts(w http.ResponseWriter, r *http.Request) {
 	shifts, err := data.GetAllShifts()
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -30,7 +29,7 @@ func GetShifts(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(shifts)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -56,7 +55,7 @@ func GetShift(w http.ResponseWriter, r *http.Request) {
 	shift, err := data.GetShiftById(idObj)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -65,7 +64,7 @@ func GetShift(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(shift)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -86,21 +85,21 @@ func AddShift(w http.ResponseWriter, r *http.Request) {
 	var newShift data.Shift
 	err := decoder.Decode(&newShift)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	res, err := data.SaveShift(&newShift)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	shift, err := data.GetShiftById(res.InsertedID.(primitive.ObjectID))
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -108,7 +107,7 @@ func AddShift(w http.ResponseWriter, r *http.Request) {
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(shift)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -128,7 +127,7 @@ func UpdateShift(w http.ResponseWriter, r *http.Request) {
 	var newShiftDTO ShiftDTO
 	err := decoder.Decode(&newShiftDTO)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -136,14 +135,14 @@ func UpdateShift(w http.ResponseWriter, r *http.Request) {
 	newShift := data.NewShift(newShiftDTO.Start, newShiftDTO.End, enum.DAY(newShiftDTO.Day))
 	newShift.ID, err = primitive.ObjectIDFromHex(newShiftDTO.ID)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	_, err = data.UpdateShift(newShift)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -151,7 +150,7 @@ func UpdateShift(w http.ResponseWriter, r *http.Request) {
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(newShift)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -176,7 +175,7 @@ func DeleteShift(w http.ResponseWriter, r *http.Request) {
 	_, err = data.DeleteShift(idObj)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}

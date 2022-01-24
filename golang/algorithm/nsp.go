@@ -3,11 +3,10 @@ package algorithm
 import (
 	"github.com/romana98/NTP/data"
 	"github.com/romana98/NTP/enum"
+	"github.com/romana98/NTP/logging"
 	ga "github.com/tomcraven/goga"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"log"
 	"math/rand"
-	"os"
 	"runtime"
 	"time"
 )
@@ -123,7 +122,7 @@ func Start(faculty *data.Faculty) {
 	shifts, err := data.GetAllShiftsByFaculty(faculty.Shifts)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return
 	}
 
@@ -133,7 +132,7 @@ func Start(faculty *data.Faculty) {
 
 	hc, err := data.GetHardConstraintById(faculty.HardConstraint)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return
 	}
 	materSimulator.endCriteria = hc
@@ -141,7 +140,7 @@ func Start(faculty *data.Faculty) {
 
 	staffList, err := data.GetAllStaffByFaculty(faculty.Staff)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return
 	}
 	var lectureLen int
@@ -194,7 +193,7 @@ func Start(faculty *data.Faculty) {
 
 	result, err := data.SaveSchedule(data.NewSchedule(assignedShiftsByStaffId))
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return
 	}
 
@@ -202,7 +201,7 @@ func Start(faculty *data.Faculty) {
 	_, err = data.UpdateFaculty(faculty)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return
 	}
 
@@ -250,12 +249,9 @@ func generateScheduler(numOfStaffLecture int, materSimulator *MaterSimulator) []
 
 	algorithm.Simulate()
 
-	//fmt.Println(materSimulator.eliteSchedule)
-
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Algorithm time: ", time.Since(startTime))
+	logging.InfoLogger.Println("Algorithm time: ", time.Since(startTime))
 
 	return materSimulator.eliteSchedule
-
 }
 
 func Abs(x int) int {

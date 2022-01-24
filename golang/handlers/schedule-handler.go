@@ -6,10 +6,9 @@ import (
 	"github.com/romana98/NTP/algorithm"
 	"github.com/romana98/NTP/data"
 	"github.com/romana98/NTP/enum"
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"log"
 	"net/http"
-	"os"
 )
 
 func GenerateSchedule(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +21,7 @@ func GenerateSchedule(w http.ResponseWriter, r *http.Request) {
 	var ID IdDTO
 	err := decoder.Decode(&ID)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -30,7 +29,7 @@ func GenerateSchedule(w http.ResponseWriter, r *http.Request) {
 	idObj, err := primitive.ObjectIDFromHex(ID.ID)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 
@@ -38,11 +37,11 @@ func GenerateSchedule(w http.ResponseWriter, r *http.Request) {
 
 	faculty, err := data.GetFacultyById(idObj)
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Algorithm started")
+	logging.InfoLogger.Println("Algorithm started")
 	algorithm.Start(&faculty)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 
@@ -51,7 +50,7 @@ func GenerateSchedule(w http.ResponseWriter, r *http.Request) {
 	schedule, err := data.GetScheduleById(faculty.Schedule)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 
@@ -61,7 +60,7 @@ func GenerateSchedule(w http.ResponseWriter, r *http.Request) {
 	for _, el := range schedule.Data {
 		staff, err := data.GetStaffById(el.Staff)
 		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -76,7 +75,7 @@ func GenerateSchedule(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(scheduleDTOList)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -100,7 +99,7 @@ func GetSchedule(w http.ResponseWriter, r *http.Request) {
 	idObj, err := primitive.ObjectIDFromHex(id)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 
@@ -109,7 +108,7 @@ func GetSchedule(w http.ResponseWriter, r *http.Request) {
 	schedule, err := data.GetScheduleById(idObj)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 
@@ -119,7 +118,7 @@ func GetSchedule(w http.ResponseWriter, r *http.Request) {
 	for _, el := range schedule.Data {
 		staff, err := data.GetStaffById(el.Staff)
 		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -134,7 +133,7 @@ func GetSchedule(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(scheduleDTOList)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -154,7 +153,7 @@ func GetScheduleByStaff(w http.ResponseWriter, r *http.Request) {
 	staffLoggedIn, err := data.GetStaffByEmail(email)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -162,7 +161,7 @@ func GetScheduleByStaff(w http.ResponseWriter, r *http.Request) {
 	faculty, err := data.GetFacultyById(staffLoggedIn.Faculty)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -170,7 +169,7 @@ func GetScheduleByStaff(w http.ResponseWriter, r *http.Request) {
 	schedule, err := data.GetScheduleById(faculty.Schedule)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -179,7 +178,7 @@ func GetScheduleByStaff(w http.ResponseWriter, r *http.Request) {
 	for _, el := range schedule.Data {
 		staff, err := data.GetStaffById(el.Staff)
 		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -197,7 +196,7 @@ func GetScheduleByStaff(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(scheduleDTOList)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}

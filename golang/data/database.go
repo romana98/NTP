@@ -3,11 +3,11 @@ package data
 import (
 	"context"
 	"github.com/romana98/NTP/enum"
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"log"
 	"os"
 	"time"
 )
@@ -52,7 +52,7 @@ func connectDB(uri string) (*mongo.Client, context.Context,
 func pingDB(client *mongo.Client, ctx context.Context) bool {
 
 	if err := client.Ping(ctx, readpref.Primary()); err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return false
 	}
 
@@ -62,9 +62,9 @@ func pingDB(client *mongo.Client, ctx context.Context) bool {
 func InitDatabase() {
 
 	client, ctx, _, err := connectDB(os.Getenv("MONGODB_URI"))
-	log.New(os.Stdout, "MONGODB_URI: ", log.Ltime|log.Lshortfile).Println(os.Getenv("MONGODB_URI"))
+	logging.InfoLogger.Println("MONGODB_URI: ", os.Getenv("MONGODB_URI"))
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return
 	}
 
@@ -73,13 +73,13 @@ func InitDatabase() {
 		// Set collections for further use
 		err := client.Database(name).Drop(ctx)
 		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return
 		}
 		setCollections(client)
 		fillDB()
 	}
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Connected to MongoDB")
+	logging.InfoLogger.Println("Connected to MongoDB")
 }
 
 func setCollections(client *mongo.Client) {
@@ -141,7 +141,7 @@ func fillAdmin() {
 
 	_, err := SaveAdmin(a)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 	}
 
 }
@@ -158,7 +158,7 @@ func fillShifts(faculty *Faculty) {
 			s := NewShift(starts[i], ends[i], days[j])
 			res, err := SaveShift(s)
 			if err != nil {
-				log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+				logging.ErrorLogger.Println(err)
 			}
 			shits = append(shits, res.InsertedID.(primitive.ObjectID))
 		}
@@ -173,7 +173,7 @@ func fillHardConstraints(faculty *Faculty) {
 	hc := NewHardConstraint(4, 15, 5, 3)
 	res, err := SaveHardConstraint(hc)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 	}
 
 	faculty.HardConstraint = res.InsertedID.(primitive.ObjectID)
@@ -185,7 +185,7 @@ func fillSoftConstraints(prefers map[enum.DAY]int) primitive.ObjectID {
 	sc := NewSoftConstraint(prefers)
 	res, err := SaveSoftConstraint(sc)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 	}
 	return res.InsertedID.(primitive.ObjectID)
 
@@ -197,7 +197,7 @@ func fillLectures(lecturesID *[]primitive.ObjectID, faculty *Faculty, names []st
 		lecture := NewLecture(i, names[i-1])
 		res, err := SaveLecture(lecture)
 		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return
 		}
 
@@ -216,7 +216,7 @@ func fillStaffs(lecturesID []primitive.ObjectID, scID primitive.ObjectID, facult
 
 	res, err := SaveStaff(p)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 	}
 	staffListID = append(faculty.Staff, res.InsertedID.(primitive.ObjectID))
 

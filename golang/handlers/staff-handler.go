@@ -5,10 +5,9 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/romana98/NTP/data"
 	"github.com/romana98/NTP/enum"
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"log"
 	"net/http"
-	"os"
 )
 
 func GetStaffList(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +20,7 @@ func GetStaffList(w http.ResponseWriter, r *http.Request) {
 	staffList, err := data.GetAllStaff()
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -30,7 +29,7 @@ func GetStaffList(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(staffList)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -56,7 +55,7 @@ func GetStaff(w http.ResponseWriter, r *http.Request) {
 	staff, err := data.GetStaffById(idObj)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -65,7 +64,7 @@ func GetStaff(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(staff)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -86,7 +85,7 @@ func AddStaff(w http.ResponseWriter, r *http.Request) {
 	var newStaffDTO StaffDTO
 	err := decoder.Decode(&newStaffDTO)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -108,14 +107,14 @@ func AddStaff(w http.ResponseWriter, r *http.Request) {
 
 	res, err = data.SaveStaff(newStaff)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	faculty, err := data.GetFacultyById(facultyId)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -123,14 +122,14 @@ func AddStaff(w http.ResponseWriter, r *http.Request) {
 	faculty.Staff = append(faculty.Staff, res.InsertedID.(primitive.ObjectID))
 	_, err = data.UpdateFaculty(&faculty)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	staff, err := data.GetStaffById(res.InsertedID.(primitive.ObjectID))
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -138,7 +137,7 @@ func AddStaff(w http.ResponseWriter, r *http.Request) {
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(staff)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -158,7 +157,7 @@ func UpdateStaff(w http.ResponseWriter, r *http.Request) {
 	var newStaffDTO StaffDTO
 	err := decoder.Decode(&newStaffDTO)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -174,13 +173,13 @@ func UpdateStaff(w http.ResponseWriter, r *http.Request) {
 
 	staffID, err := primitive.ObjectIDFromHex(newStaffDTO.ID)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	staff, err := data.GetStaffById(staffID)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -188,14 +187,14 @@ func UpdateStaff(w http.ResponseWriter, r *http.Request) {
 	newStaff := data.NewStaff(newStaffDTO.Name, newStaffDTO.Surname, newStaffDTO.Email, lectures, staff.SoftConstraints, faculty)
 	newStaff.ID = staffID
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	_, err = data.UpdateStaff(newStaff)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -203,7 +202,7 @@ func UpdateStaff(w http.ResponseWriter, r *http.Request) {
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(newStaff)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -228,7 +227,7 @@ func DeleteStaff(w http.ResponseWriter, r *http.Request) {
 	_, err = data.DeleteStaff(idObj)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}

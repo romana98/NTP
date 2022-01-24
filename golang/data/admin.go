@@ -3,12 +3,10 @@ package data
 import (
 	"context"
 	"github.com/romana98/NTP/enum"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"os"
-
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 )
 
 // Admin : represents struct for a single Admin
@@ -37,13 +35,12 @@ func SaveAdmin(admin *Admin) (*mongo.InsertOneResult, error) {
 
 	insertResult, err := collectionAdmin.InsertOne(context.TODO(), admin)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return insertResult, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Admin insert success")
+	logging.InfoLogger.Println("Admin insert success")
 	return insertResult, nil
-
 }
 
 // GetAdminByEmail : return admin by Admin Email
@@ -54,10 +51,10 @@ func GetAdminByEmail(email string) (Admin, error) {
 	err := collectionAdmin.FindOne(context.TODO(), bson.D{{"email", email}}).Decode(&admin)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return admin, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Admin return success")
+	logging.InfoLogger.Println("Admin return success")
 	return admin, nil
 }

@@ -4,10 +4,9 @@ import (
 	"encoding/json"
 	"github.com/romana98/NTP/data"
 	"github.com/romana98/NTP/enum"
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"log"
 	"net/http"
-	"os"
 )
 
 func GetSoftConstraintsByStaff(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +20,7 @@ func GetSoftConstraintsByStaff(w http.ResponseWriter, r *http.Request) {
 	staff, err := data.GetStaffByEmail(email)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -29,7 +28,7 @@ func GetSoftConstraintsByStaff(w http.ResponseWriter, r *http.Request) {
 	sc, err := data.GetSoftConstraintById(staff.SoftConstraints)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -38,7 +37,7 @@ func GetSoftConstraintsByStaff(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(sc)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -59,7 +58,7 @@ func UpdateSoftConstraint(w http.ResponseWriter, r *http.Request) {
 	var newSCDTO SoftConstraintDTO
 	err := decoder.Decode(&newSCDTO)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -67,14 +66,14 @@ func UpdateSoftConstraint(w http.ResponseWriter, r *http.Request) {
 	newSC := data.NewSoftConstraint(newSCDTO.Prefers)
 	newSC.ID, err = primitive.ObjectIDFromHex(newSCDTO.ID)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	_, err = data.UpdateSoftConstraint(newSC)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -82,7 +81,7 @@ func UpdateSoftConstraint(w http.ResponseWriter, r *http.Request) {
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(newSC)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}

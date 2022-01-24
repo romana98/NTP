@@ -3,12 +3,10 @@ package data
 import (
 	"context"
 	"github.com/romana98/NTP/enum"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"os"
-
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 )
 
 // Staff : represents struct for a single Staff
@@ -43,13 +41,12 @@ func SaveStaff(staff *Staff) (*mongo.InsertOneResult, error) {
 
 	insertResult, err := collectionStaff.InsertOne(context.TODO(), staff)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return insertResult, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Staff insert success")
+	logging.InfoLogger.Println("Staff insert success")
 	return insertResult, nil
-
 }
 
 // GetStaffById : return staff by Staff ID
@@ -60,11 +57,11 @@ func GetStaffById(id primitive.ObjectID) (Staff, error) {
 	err := collectionStaff.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(&staff)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return staff, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Staff return success")
+	logging.InfoLogger.Println("Staff insert success")
 	return staff, nil
 }
 
@@ -76,11 +73,11 @@ func GetStaffByEmail(email string) (Staff, error) {
 	err := collectionStaff.FindOne(context.TODO(), bson.D{{"email", email}}).Decode(&staff)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return staff, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Staff return success")
+	logging.InfoLogger.Println("Staff insert success")
 	return staff, nil
 }
 
@@ -90,11 +87,11 @@ func UpdateStaff(staff *Staff) (*mongo.UpdateResult, error) {
 	result, err := collectionStaff.ReplaceOne(context.TODO(), bson.D{{"_id", staff.ID}}, staff)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return result, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Staff update success")
+	logging.InfoLogger.Println("Staff insert success")
 	return result, nil
 }
 
@@ -105,7 +102,7 @@ func GetAllStaff() ([]Staff, error) {
 
 	cursor, err := collectionStaff.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return staffList, err
 	}
 
@@ -114,13 +111,13 @@ func GetAllStaff() ([]Staff, error) {
 		err := cursor.Decode(&staff)
 		if err != nil {
 
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return staffList, err
 		}
 		staffList = append(staffList, staff)
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Staff return all success")
+	logging.InfoLogger.Println("Staff insert success")
 	return staffList, nil
 }
 
@@ -131,7 +128,7 @@ func GetAllStaffByFaculty(ids []primitive.ObjectID) ([]Staff, error) {
 
 	cursor, err := collectionStaff.Find(context.TODO(), bson.M{"_id": bson.M{"$in": ids}})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return staffList, err
 	}
 
@@ -140,13 +137,13 @@ func GetAllStaffByFaculty(ids []primitive.ObjectID) ([]Staff, error) {
 		err := cursor.Decode(&staff)
 		if err != nil {
 
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return staffList, err
 		}
 		staffList = append(staffList, staff)
-
 	}
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Staff return all by faculty success")
+
+	logging.InfoLogger.Println("Staff return all by faculty success")
 	return staffList, nil
 }
 
@@ -155,10 +152,10 @@ func DeleteStaff(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 
 	result, err := collectionStaff.DeleteOne(context.TODO(), bson.D{{"_id", id}})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return result, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Staff delete success")
+	logging.InfoLogger.Println("Staff delete success")
 	return result, nil
 }

@@ -13,11 +13,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: golang
+    image: romana98/golang
     container_name: golang
     depends_on:
       - mongo-db
+    volumes:
+      - type: bind
+        source: D:/A/golang.log
+        target: /golang/logs/logs.log
     environment:
       MONGODB_URI: mongodb://mongo-db
+      LOG_STORAGE: /golang/logs/logs.log
     ports:
       - '8080:8080'

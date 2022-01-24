@@ -3,12 +3,10 @@ package data
 import (
 	"context"
 	"github.com/romana98/NTP/enum"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"os"
-
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 )
 
 type ShiftMap map[enum.DAY][]Vertex
@@ -56,13 +54,12 @@ func SaveSchedule(Schedule *Schedule) (*mongo.InsertOneResult, error) {
 	insertResult, err := collectionSchedule.InsertOne(context.TODO(), Schedule)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return insertResult, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Schedule return success")
+	logging.InfoLogger.Println("Schedule return success")
 	return insertResult, nil
-
 }
 
 // GetScheduleById : return schedule by Schedule ID
@@ -73,10 +70,10 @@ func GetScheduleById(id primitive.ObjectID) (Schedule, error) {
 	err := collectionSchedule.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(&schedule)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return schedule, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Schedule return success")
+	logging.InfoLogger.Println("Schedule return success")
 	return schedule, nil
 }

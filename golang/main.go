@@ -4,22 +4,24 @@ import (
 	"context"
 	"github.com/joho/godotenv"
 	"github.com/romana98/NTP/data"
+	"github.com/romana98/NTP/logging"
 	"github.com/romana98/NTP/routing"
 	"github.com/rs/cors"
-	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 )
 
-func main() {
 
+func main() {
 	// load .env file
 	err := godotenv.Load(".env")
 
+	logging.Logger()
+
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 	}
 
 	data.InitDatabase()
@@ -44,12 +46,12 @@ func main() {
 	}
 
 	go func() {
+		logging.InfoLogger.Println("Serving on port 8080")
 		err := s.ListenAndServe()
 		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return
 		}
-		log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Serving on port 8080")
 	}()
 
 	// trap sigterm or interrupt and gracefully shutdown the server
@@ -59,13 +61,13 @@ func main() {
 
 	// Block until a signal is received.
 	sig := <-c
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Got signal:", sig, " - shutting down")
+	logging.InfoLogger.Println("Got signal:", sig, " - shutting down")
 
 	// gracefully shutdown the server, waiting max 30 seconds for current operations to complete
 	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
 	err = s.Shutdown(ctx)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return
 	}
 }

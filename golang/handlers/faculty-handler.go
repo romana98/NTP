@@ -5,10 +5,9 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/romana98/NTP/data"
 	"github.com/romana98/NTP/enum"
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"log"
 	"net/http"
-	"os"
 )
 
 func GetFaculties(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +20,7 @@ func GetFaculties(w http.ResponseWriter, r *http.Request) {
 	faculties, err := data.GetAllFaculties()
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -30,7 +29,7 @@ func GetFaculties(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(faculties)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -56,7 +55,7 @@ func GetFaculty(w http.ResponseWriter, r *http.Request) {
 	faculty, err := data.GetFacultyById(idObj)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -65,7 +64,7 @@ func GetFaculty(w http.ResponseWriter, r *http.Request) {
 
 	err = encoder.Encode(faculty)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -86,21 +85,21 @@ func AddFaculty(w http.ResponseWriter, r *http.Request) {
 	var newFaculty data.Faculty
 	err := decoder.Decode(&newFaculty)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	res, err := data.SaveFaculty(&newFaculty)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	faculty, err := data.GetFacultyById(res.InsertedID.(primitive.ObjectID))
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -108,7 +107,7 @@ func AddFaculty(w http.ResponseWriter, r *http.Request) {
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(faculty)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -128,7 +127,7 @@ func UpdateFaculty(w http.ResponseWriter, r *http.Request) {
 	var newFacultyDTO FacultyDTO
 	err := decoder.Decode(&newFacultyDTO)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -144,7 +143,7 @@ func UpdateFaculty(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < len(newFacultyDTO.Shifts); i++ {
 		s, err := primitive.ObjectIDFromHex(newFacultyDTO.Shifts[i])
 		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -154,7 +153,7 @@ func UpdateFaculty(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < len(newFacultyDTO.Lectures); i++ {
 		s, err := primitive.ObjectIDFromHex(newFacultyDTO.Lectures[i])
 		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -164,7 +163,7 @@ func UpdateFaculty(w http.ResponseWriter, r *http.Request) {
 	faculty, err := data.GetFacultyById(objID)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -172,14 +171,14 @@ func UpdateFaculty(w http.ResponseWriter, r *http.Request) {
 	newFaculty := data.NewFaculty(newFacultyDTO.Name, hc, schedule, shifts, faculty.Staff, lectures)
 	newFaculty.ID = objID
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	_, err = data.UpdateFaculty(newFaculty)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -187,7 +186,7 @@ func UpdateFaculty(w http.ResponseWriter, r *http.Request) {
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(newFaculty)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -212,7 +211,7 @@ func DeleteFaculty(w http.ResponseWriter, r *http.Request) {
 	_, err = data.DeleteFaculty(idObj)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}

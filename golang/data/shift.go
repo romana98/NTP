@@ -3,11 +3,10 @@ package data
 import (
 	"context"
 	"github.com/romana98/NTP/enum"
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
-	"os"
 )
 
 // Shift : represents struct for a single Shift
@@ -31,13 +30,12 @@ func SaveShift(shift *Shift) (*mongo.InsertOneResult, error) {
 
 	insertResult, err := collectionShift.InsertOne(context.TODO(), shift)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return insertResult, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Shift insert success")
+	logging.InfoLogger.Println("Shift insert success")
 	return insertResult, nil
-
 }
 
 // GetShiftById : return shift by Shift ID
@@ -48,11 +46,11 @@ func GetShiftById(id primitive.ObjectID) (Shift, error) {
 	err := collectionShift.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(&shift)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return shift, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Shift return success")
+	logging.InfoLogger.Println("Shift insert success")
 	return shift, nil
 }
 
@@ -62,11 +60,11 @@ func UpdateShift(shift *Shift) (*mongo.UpdateResult, error) {
 	result, err := collectionShift.ReplaceOne(context.TODO(), bson.D{{"_id", shift.ID}}, shift)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return result, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Shift update success")
+	logging.InfoLogger.Println("Shift insert success")
 	return result, nil
 }
 
@@ -78,7 +76,7 @@ func GetAllShifts() ([]Shift, error) {
 
 	cursor, err := collectionShift.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return shifts, err
 	}
 
@@ -86,13 +84,13 @@ func GetAllShifts() ([]Shift, error) {
 		err := cursor.Decode(&shift)
 		if err != nil {
 
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return shifts, err
 		}
 		shifts = append(shifts, shift)
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Shift return all success")
+	logging.InfoLogger.Println("Shift return all success")
 	return shifts, nil
 }
 
@@ -103,7 +101,7 @@ func GetAllShiftsByFaculty(ids []primitive.ObjectID) ([]Shift, error) {
 
 	cursor, err := collectionShift.Find(context.TODO(), bson.M{"_id": bson.M{"$in": ids}})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return shifts, err
 	}
 
@@ -112,13 +110,13 @@ func GetAllShiftsByFaculty(ids []primitive.ObjectID) ([]Shift, error) {
 		err := cursor.Decode(&shift)
 		if err != nil {
 
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return shifts, err
 		}
 		shifts = append(shifts, shift)
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Shift return all by faculty success")
+	logging.InfoLogger.Println("Shift return all by faculty success")
 	return shifts, nil
 }
 
@@ -127,10 +125,10 @@ func DeleteShift(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 
 	result, err := collectionShift.DeleteOne(context.TODO(), bson.D{{"_id", id}})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return result, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Shift delete success")
+	logging.InfoLogger.Println("Shift delete success")
 	return result, nil
 }

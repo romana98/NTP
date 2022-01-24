@@ -2,12 +2,10 @@ package data
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"os"
-
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 )
 
 // Lecture : represents struct for a single Lecture
@@ -29,13 +27,12 @@ func SaveLecture(lecture *Lecture) (*mongo.InsertOneResult, error) {
 
 	insertResult, err := collectionLecture.InsertOne(context.TODO(), lecture)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return insertResult, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Lecture insert success")
+	logging.InfoLogger.Println("Lecture update success")
 	return insertResult, nil
-
 }
 
 // GetLectureById : return lecture by Lecture ID
@@ -46,11 +43,11 @@ func GetLectureById(id primitive.ObjectID) (Lecture, error) {
 	err := collectionLecture.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(&lecture)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return lecture, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Lecture return success")
+	logging.InfoLogger.Println("Lecture update success")
 	return lecture, nil
 }
 
@@ -60,11 +57,11 @@ func UpdateLecture(lecture *Lecture) (*mongo.UpdateResult, error) {
 	result, err := collectionLecture.ReplaceOne(context.TODO(), bson.D{{"_id", lecture.ID}}, lecture)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return result, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Lecture update success")
+	logging.InfoLogger.Println("Lecture update success")
 	return result, nil
 }
 
@@ -75,7 +72,7 @@ func GetAllLectures() ([]Lecture, error) {
 
 	cursor, err := collectionLecture.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return lectures, err
 	}
 
@@ -84,13 +81,13 @@ func GetAllLectures() ([]Lecture, error) {
 		err := cursor.Decode(&lecture)
 		if err != nil {
 
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return lectures, err
 		}
 		lectures = append(lectures, lecture)
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Lecture return all success")
+	logging.InfoLogger.Println("Lecture return all success")
 	return lectures, nil
 }
 
@@ -101,7 +98,7 @@ func GetAllLecturesByIds(ids []primitive.ObjectID) ([]Lecture, error) {
 
 	cursor, err := collectionLecture.Find(context.TODO(), bson.M{"_id": bson.M{"$in": ids}})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return lectures, err
 	}
 
@@ -110,13 +107,13 @@ func GetAllLecturesByIds(ids []primitive.ObjectID) ([]Lecture, error) {
 		err := cursor.Decode(&lecture)
 		if err != nil {
 
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return lectures, err
 		}
 		lectures = append(lectures, lecture)
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Lecture return all by professor success")
+	logging.InfoLogger.Println("Lecture return all by professor success")
 	return lectures, nil
 }
 
@@ -125,10 +122,10 @@ func DeleteLecture(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 
 	result, err := collectionLecture.DeleteOne(context.TODO(), bson.D{{"_id", id}})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return result, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Lecture delete success")
+	logging.InfoLogger.Println("Lecture delete success")
 	return result, nil
 }

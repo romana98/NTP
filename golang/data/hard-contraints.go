@@ -2,12 +2,10 @@ package data
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"os"
-
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 )
 
 // HardConstraint : represents struct for a single HardConstraint
@@ -33,13 +31,12 @@ func SaveHardConstraint(hc *HardConstraint) (*mongo.InsertOneResult, error) {
 
 	insertResult, err := collectionHardConstraint.InsertOne(context.TODO(), hc)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return insertResult, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("HardConstraint insert success")
+	logging.InfoLogger.Println("HardConstraint insert success")
 	return insertResult, nil
-
 }
 
 // GetHardConstraintById : return hard constraint by HardConstraint ID
@@ -50,11 +47,11 @@ func GetHardConstraintById(id primitive.ObjectID) (HardConstraint, error) {
 	err := collectionHardConstraint.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(&hc)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return hc, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("HardConstraint return success")
+	logging.InfoLogger.Println("HardConstraint return success")
 	return hc, nil
 }
 
@@ -64,11 +61,11 @@ func UpdateHardConstraint(hc *HardConstraint) (*mongo.UpdateResult, error) {
 	result, err := collectionHardConstraint.ReplaceOne(context.TODO(), bson.D{{"_id", hc.ID}}, hc)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return result, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("HardConstraint update success")
+	logging.InfoLogger.Println("HardConstraint update success")
 	return result, nil
 }
 
@@ -79,7 +76,7 @@ func GetAllHardConstraints() ([]HardConstraint, error) {
 
 	cursor, err := collectionHardConstraint.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return hcs, err
 	}
 
@@ -87,13 +84,13 @@ func GetAllHardConstraints() ([]HardConstraint, error) {
 		var hc HardConstraint
 		err := cursor.Decode(&hc)
 		if err != nil {
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return hcs, err
 		}
 		hcs = append(hcs, hc)
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("HardConstraint return all success")
+	logging.InfoLogger.Println("HardConstraint return all success")
 	return hcs, nil
 }
 
@@ -102,9 +99,10 @@ func DeleteHardConstraint(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 
 	result, err := collectionHardConstraint.DeleteOne(context.TODO(), bson.D{{"_id", id}})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return result, err
 	}
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("HardConstraint delete success")
+
+	logging.InfoLogger.Println("HardConstraint delete success")
 	return result, nil
 }

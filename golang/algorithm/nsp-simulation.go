@@ -1,7 +1,6 @@
 package algorithm
 
 import (
-	"fmt"
 	"github.com/romana98/NTP/data"
 	ga "github.com/tomcraven/goga"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -40,7 +39,6 @@ func (ms *MaterSimulator) Simulate(genome *ga.IGenome) {
 	(*genome).SetFitness(fitness)
 	ms.eliteSchedule = rotation.schedule
 	ms.iteration++
-	//fmt.Println("schedule: ", rotation.schedule)
 }
 
 func (ms *MaterSimulator) OnEndSimulation() {
@@ -98,11 +96,10 @@ type BitsetCreate struct {
 
 func (ec *EliteConsumer) OnElite(g *ga.IGenome) {
 	fitness := (*g).GetFitness()
-	if ec.currentIter > 0 {
+	/*if ec.currentIter > 0 {
 
 		fmt.Println(ec.currentIter, "\t", fitness, "\t", ec.previousFitness)
-	}
+	}*/
 	ec.currentIter++
 	ec.previousFitness = fitness
-
 }

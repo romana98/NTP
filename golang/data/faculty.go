@@ -2,12 +2,10 @@ package data
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"os"
-
+	"github.com/romana98/NTP/logging"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 )
 
 // Faculty : represents struct for a single Faculty
@@ -38,13 +36,12 @@ func SaveFaculty(Faculty *Faculty) (*mongo.InsertOneResult, error) {
 
 	insertResult, err := collectionFaculty.InsertOne(context.TODO(), Faculty)
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return insertResult, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Faculty insert success")
+	logging.ErrorLogger.Println("Faculty insert success")
 	return insertResult, nil
-
 }
 
 // GetFacultyById : return faculty by faculty ID
@@ -55,11 +52,11 @@ func GetFacultyById(id primitive.ObjectID) (Faculty, error) {
 	err := collectionFaculty.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(&faculty)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return faculty, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Faculty return success")
+	logging.ErrorLogger.Println("Faculty return success")
 	return faculty, nil
 }
 
@@ -69,11 +66,11 @@ func UpdateFaculty(faculty *Faculty) (*mongo.UpdateResult, error) {
 	result, err := collectionFaculty.ReplaceOne(context.TODO(), bson.D{{"_id", faculty.ID}}, faculty)
 
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return result, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Faculty update success")
+	logging.InfoLogger.Println("Faculty update success")
 	return result, nil
 }
 
@@ -84,7 +81,7 @@ func GetAllFaculties() ([]Faculty, error) {
 
 	cursor, err := collectionFaculty.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return faculties, err
 	}
 
@@ -93,13 +90,13 @@ func GetAllFaculties() ([]Faculty, error) {
 		err := cursor.Decode(&faculty)
 		if err != nil {
 
-			log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+			logging.ErrorLogger.Println(err)
 			return faculties, err
 		}
 		faculties = append(faculties, faculty)
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Faculty return all success")
+	logging.InfoLogger.Println("Faculty return all success")
 	return faculties, nil
 }
 
@@ -108,10 +105,10 @@ func DeleteFaculty(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 
 	result, err := collectionFaculty.DeleteOne(context.TODO(), bson.D{{"_id", id}})
 	if err != nil {
-		log.New(os.Stdout, "ERROR: ", log.Ltime|log.Lshortfile).Println(err)
+		logging.ErrorLogger.Println(err)
 		return result, err
 	}
 
-	log.New(os.Stdout, "INFO: ", log.Ltime|log.Lshortfile).Println("Faculty delete success")
+	logging.InfoLogger.Println("Faculty delete success")
 	return result, nil
 }

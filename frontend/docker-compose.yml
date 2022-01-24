@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: frontend-app
+    image: romana98/frontend-app
     container_name: frontend-app
     ports:
       - '4200:4200'
