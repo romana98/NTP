@@ -1,6 +1,5 @@
 use crate::schema::{staffs, admins};
 
-
 #[derive(Identifiable, AsChangeset, Queryable, Serialize, Deserialize)]
 pub struct Staff {
     pub id: i32,

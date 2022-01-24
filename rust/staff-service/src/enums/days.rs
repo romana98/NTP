@@ -9,19 +9,7 @@ pub enum Day {
     Thursday,
     Friday,
 }
-/*
-impl Day {
-    pub fn from_str(role: &str) -> Day {
-        match role {
-            "Monday" => Day::Monday,
-            "Tuesday" => Day::Tuesday,
-            "Wednesday" => Day::Wednesday,
-            "Thursday" => Day::Thursday,
-            _ => Day::Friday,
-        }
-    }
-}
-*/
+
 impl fmt::Display for Day {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {

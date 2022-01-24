@@ -157,8 +157,7 @@ fn get_available_shifts(shift_map: &ShiftMap, assigned_shifts: &ShiftMap) -> Shi
                         Entry::Vacant(e) => {e.insert(vec![Vertex{start: vertex_sm.start.to_owned(), end: vertex_sm.end.to_owned()}]);},
                         Entry::Occupied(mut e) => { 
                             e.get_mut().push(Vertex{start: (*vertex_sm.start).to_owned(), end: (*vertex_sm.end).to_owned()}); }
-                    }
-                  
+                    }  
                 }
             }
         }   

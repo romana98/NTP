@@ -7,11 +7,10 @@ extern crate log;
 #[macro_use]
 extern crate actix_web;
 
-
 extern crate dotenv;
 extern crate r2d2;
 extern crate derive_more;
-extern crate actix_web_grants; //::proc_macro::{has_any_role, has_permissions};
+extern crate actix_web_grants;
 
 use actix_web::{http, middleware, App, HttpServer};
 use actix_cors::Cors;
@@ -41,7 +40,6 @@ async fn main() -> std::io::Result<()> {
     log4rs::init_config(log).expect("Configuring logging");
 
     HttpServer::new(move || {
-        info!("Starting rating microservice");
         App::new()
             .wrap(Cors::default()
                 .allowed_methods(vec!["POST"])

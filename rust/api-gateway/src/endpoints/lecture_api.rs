@@ -7,7 +7,6 @@ use actix_web::{web, HttpRequest, HttpResponse};
 use actix_web::web::{Path};
 use awc;
 
-
 // POST /lectures
 pub async fn create_lecture(lecture_dto: web::Json<LectureDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();
@@ -114,7 +113,6 @@ pub async fn delete_lecture(id: Path<i32>, req: HttpRequest) -> HttpResponse {
                         .header("Authorization", token.unwrap())
                         .send()
                         .await;
-            
             match resp_staff {
                 Ok(_) => {
                     let url_faculty = format!("{}{}{}", *urls::FACULTY_SERVICE, &lecture_const::LECTURES_ID, id_lecture);

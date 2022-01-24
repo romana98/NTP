@@ -58,7 +58,6 @@ async fn main() -> std::io::Result<()> {
     log4rs::init_config(log).expect("Configuring logging");
 
     HttpServer::new(move || {
-        info!("Starting rating microservice - {}", port);
         App::new()
             .wrap(Cors::default()
                 .allowed_methods(vec!["GET", "POST", "PUT", "DELETE"])

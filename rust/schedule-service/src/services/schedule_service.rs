@@ -112,8 +112,6 @@ pub fn get_schedule_by_staff(id: i32, pool: &web::Data<Pool>) -> Result<Vec<Sche
     }   
 }
 
-
-
 pub fn delete_schedule(id: i32, pool: &web::Data<Pool>) -> Result<String, ActixError> {
     info!("{}", format!("   Deleting schedule {}", id));
 

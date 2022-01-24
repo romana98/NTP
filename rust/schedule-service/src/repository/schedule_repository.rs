@@ -5,7 +5,6 @@ use crate::{
 use diesel::prelude::*;
 use diesel::result::Error;
 
-
 pub fn create_schedule(conn: &PgConnection) -> QueryResult<Schedule> {
     info!("{}", format!("   Inserting schedule"));
     

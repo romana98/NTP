@@ -104,7 +104,6 @@ pub fn get_faculty(id: i32, pool: &web::Data<Pool>) -> Result<FacultyDTO, Error>
 
     let lectures = lectures_faculty_repository::get_lectures_faculty_by_faculty_id(id, &connection);
 
-
     match lectures {
         Ok(lectures) => {
             for lecture in lectures {
@@ -116,7 +115,6 @@ pub fn get_faculty(id: i32, pool: &web::Data<Pool>) -> Result<FacultyDTO, Error>
 
     let staff = staff_faculty_repository::get_staff_faculty_by_faculty_id(id, &connection);
 
-
     match staff {
         Ok(staff) => {
             for st in staff {
@@ -127,7 +125,6 @@ pub fn get_faculty(id: i32, pool: &web::Data<Pool>) -> Result<FacultyDTO, Error>
     }
 
     let shifts = shifts_faculty_repository::get_shifts_faculty_by_faculty_id(id, &connection);
-
 
     match shifts {
         Ok(shifts) => {
@@ -210,7 +207,6 @@ pub fn update_faculty(faculty_dto: FacultyDTO, pool: &web::Data<Pool>) -> Result
         shifts_vec.push(sh);
     }
     shifts_faculty_repository::update_shifts_faculty(shifts_vec, faculty_id_int, &connection)?;
-
 
     let schedule = match &faculty_dto.schedule as &str {
         "" =>None::<i32>,
@@ -361,7 +357,6 @@ pub fn get_faculty_for_schedule(id: i32, pool: &web::Data<Pool>) -> Result<Facul
 
     let staff = staff_faculty_repository::get_staff_faculty_by_faculty_id(id, &connection);
 
-
     match staff {
         Ok(staff) => {
             for st in staff {
@@ -372,7 +367,6 @@ pub fn get_faculty_for_schedule(id: i32, pool: &web::Data<Pool>) -> Result<Facul
     }
 
     let shifts_faculty = shifts_faculty_repository::get_shifts_faculty_by_faculty_id(id, &connection);
-
 
     match shifts_faculty {
         Ok(shifts) => {

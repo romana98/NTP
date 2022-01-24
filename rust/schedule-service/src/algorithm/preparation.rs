@@ -45,7 +45,6 @@ pub fn prepare_data(faculty: &FacultySchedule, staff: &Vec<StaffSchedule>, lectu
             lectures: lectures_vec,
             num_of_shifts: num_of_shifts
         });
-
     }
 
   (Some(Simulator{

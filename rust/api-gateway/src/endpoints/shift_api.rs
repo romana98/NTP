@@ -7,7 +7,6 @@ use actix_web::{web, HttpRequest, HttpResponse};
 use actix_web::web::{Path};
 use awc;
 
-
 // POST /shifts
 pub async fn create_shift(shift_dto: web::Json<ShiftDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();

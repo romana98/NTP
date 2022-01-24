@@ -12,10 +12,7 @@ pub enum AuthError {
     GenericError(String),
 
     #[display(fmt = "UniqueViolation: {}", _0)]
-    UniqueViolation(String),
-
-    //#[display(fmt = "ProcessError: {}", _0)]
-    //ProcessError(String),
+    UniqueViolation(String)
 }
 
 impl ResponseError for AuthError {
@@ -26,10 +23,6 @@ impl ResponseError for AuthError {
             AuthError::GenericError(ref message) => HttpResponse::BadRequest().json(message),
 
             AuthError::UniqueViolation(ref message) => HttpResponse::BadRequest().json(message),
-
-            /*AuthError::ProcessError(ref message) => {
-                HttpResponse::InternalServerError().json(message)
-            }*/
         }
     }
 }

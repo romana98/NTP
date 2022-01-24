@@ -116,8 +116,8 @@ pub async fn get_all_lectures_by_staff(req: HttpRequest) -> HttpResponse {
                         .send_json(&ids)
                         .await;
             match resp_lecture {
-                Ok(_) => {
-                    return client_response::convert_to_http_response(response).await;
+                Ok(response_lecture) => {
+                    return client_response::convert_to_http_response(response_lecture).await;
                 }
                 Err(error) => {
                     return HttpResponse::InternalServerError().body(error.to_string());

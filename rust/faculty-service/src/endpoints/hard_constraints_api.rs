@@ -18,7 +18,7 @@ pub async fn create_hard_constraint(hard_constraint_dto: web::Json<HardConstrain
             let hard_constraint_dto_inner = hard_constraint_dto.into_inner();
 
             hard_constraints_service::create_hard_constraint(hard_constraint_dto_inner, &pool)
-            .map(|hard_constraint| response_util::hard_constraint_created(hard_constraint))
+            .map(|hard_constraint| HttpResponse::Created().json(hard_constraint))
             .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),
@@ -77,7 +77,7 @@ pub async fn update_hard_constraint(hard_constraint_dto: web::Json<HardConstrain
             let hard_constraint_dto_inner = hard_constraint_dto.into_inner();
 
             hard_constraints_service::update_hard_constraint(hard_constraint_dto_inner, &pool)
-                .map(|hard_constraint| response_util::hard_constraint_ok(hard_constraint))
+                .map(|hard_constraint| HttpResponse::Ok().json(hard_constraint))
                 .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),

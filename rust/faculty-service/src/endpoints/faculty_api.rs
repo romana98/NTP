@@ -18,7 +18,7 @@ pub async fn create_faculty(faculty_dto: web::Json<FacultyDTO>, pool: web::Data<
             let faculty_dto_inner = faculty_dto.into_inner();
 
             faculty_service::create_faculty(faculty_dto_inner, &pool)
-            .map(|faculty| response_util::faculty_created(faculty))
+            .map(|faculty| HttpResponse::Created().json(faculty))
             .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),
@@ -77,7 +77,7 @@ pub async fn update_faculty(faculty_dto: web::Json<FacultyDTO>, pool: Data<Pool>
             let faculty_dto_inner = faculty_dto.into_inner();
 
             faculty_service::update_faculty(faculty_dto_inner, &pool)
-                .map(|faculty| response_util::faculty_ok(faculty))
+                .map(|faculty| HttpResponse::Ok().json(faculty))
                 .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),

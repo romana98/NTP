@@ -12,8 +12,6 @@ use actix_web_grants::permissions::{AuthDetails, PermissionsCheck};
 use actix_web::web::{Path};
 use awc;
 
-
-
 // POST /schedule/
 pub async fn generate_schedule(id: web::Json<IdDTO>, pool: web::Data<Pool>, req: HttpRequest, details: AuthDetails) -> HttpResponse {
     info!("   Creating faculty requested");

@@ -6,7 +6,6 @@ use crate::{
 use diesel::prelude::*;
 use diesel::result::Error;
 
-
 pub fn create_soft_constraints(conn: &PgConnection) -> QueryResult<SoftConstraint> {
     info!("{}", format!("   Inserting soft_constraints"));
     

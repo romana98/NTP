@@ -5,7 +5,6 @@ pub struct LectureDTO {
     pub number_of_times: i32
 }
 
-
 #[derive(Serialize, Deserialize, Debug)]
 pub struct IdsDTO {
     pub ids: Vec<String>

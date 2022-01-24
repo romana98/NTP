@@ -18,7 +18,7 @@ pub async fn create_staff_faculty(staff_faculty_dto: web::Json<StaffFacultyDTO>,
             let staff_faculty_dto_inner = staff_faculty_dto.into_inner();
 
             staff_faculty_service::create_staff_faculty(staff_faculty_dto_inner, &pool)
-            .map(|staff_faculty| response_util::staff_faculty_created(staff_faculty))
+            .map(|staff_faculty| HttpResponse::Created().json(staff_faculty))
             .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),
@@ -34,7 +34,7 @@ pub async fn update_staff_faculty(staff_faculty_dto: web::Json<StaffFacultyDTO>,
             let staff_faculty_dto_inner = staff_faculty_dto.into_inner();
 
             staff_faculty_service::update_staff_faculty(staff_faculty_dto_inner, &pool)
-                .map(|staff_faculty| response_util::staff_faculty_ok(staff_faculty))
+                .map(|staff_faculty|  HttpResponse::Ok().json(staff_faculty))
                 .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),

@@ -7,7 +7,6 @@ use actix_web::{web, HttpRequest, HttpResponse};
 use actix_web::web::{Path};
 use awc;
 
-
 // POST /hard_constraints
 pub async fn create_hard_constraint(hard_constraint_dto: web::Json<HardConstraintDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();

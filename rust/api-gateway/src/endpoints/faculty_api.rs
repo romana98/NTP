@@ -7,7 +7,6 @@ use actix_web::{web, HttpRequest, HttpResponse};
 use actix_web::web::{Path};
 use awc;
 
-
 // POST /faculties
 pub async fn create_faculty(faculty_dto: web::Json<FacultyDTO>, req: HttpRequest) -> HttpResponse {
     let client = awc::Client::new();

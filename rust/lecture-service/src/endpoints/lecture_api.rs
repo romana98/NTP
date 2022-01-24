@@ -18,7 +18,7 @@ pub async fn create_lecture(lecture_dto: web::Json<LectureDTO>, pool: web::Data<
             let lec = lecture_dto.into_inner();
 
             lecture_service::create_lecture(lec, &pool)
-            .map(|lecture| response_util::lecture_created(lecture))
+            .map(|lecture| HttpResponse::Created().json(lecture))
             .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),
@@ -93,7 +93,7 @@ pub async fn update_lecture(lecture_dto: web::Json<LectureDTO>, pool: Data<Pool>
             let lec = lecture_dto.into_inner();
 
             lecture_service::update_lecture(lec, &pool)
-                .map(|lecture| response_util::lecture_ok(lecture))
+                .map(|lecture| HttpResponse::Ok().json(lecture))
                 .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),

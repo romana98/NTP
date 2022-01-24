@@ -18,7 +18,7 @@ pub async fn create_shift(shift_dto: web::Json<ShiftDTO>, pool: web::Data<Pool>,
             let shift_dto_inner = shift_dto.into_inner();
 
             shift_service::create_shift(shift_dto_inner, &pool)
-            .map(|shift| response_util::shift_created(shift))
+            .map(|shift|  HttpResponse::Created().json(shift))
             .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),
@@ -77,7 +77,7 @@ pub async fn update_shift(shift_dto: web::Json<ShiftDTO>, pool: Data<Pool>, deta
             let shift_dto_inner = shift_dto.into_inner();
 
             shift_service::update_shift(shift_dto_inner, &pool)
-                .map(|shift| response_util::shift_ok(shift))
+                .map(|shift| HttpResponse::Ok().json(shift))
                 .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),

@@ -21,7 +21,7 @@ pub async fn create_staff(staff_dto: web::Json<StaffDTO>, pool: web::Data<Pool>,
             let s = staff_dto.into_inner();
     
             staff_service::create_staff(s, &pool)
-                .map(|staff| response_util::staff_created(staff))
+                .map(|staff| HttpResponse::Created().json(staff))
                 .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),
@@ -85,7 +85,7 @@ pub async fn update_staff(staff_dto: web::Json<StaffDTO>, pool: Data<Pool>, deta
             let staff = staff_dto.into_inner();
 
             staff_service::update_staff(staff, &pool)
-                .map(|staff| response_util::staff_ok(staff))
+                .map(|staff|  HttpResponse::Ok().json(staff))
                 .map_err(|error| response_util::error_response(error))
         },
         false => Err(error::ErrorForbidden("Access denied")),

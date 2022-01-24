@@ -9,7 +9,6 @@ use diesel::prelude::*;
 use diesel::result::Error;
 use strum::IntoEnumIterator;
 
-
 pub fn create_prefers(sc_id: i32, conn: &PgConnection) -> QueryResult<Vec<Prefer>> {
     info!("{}", format!("   Inserting soft_constraints"));
     let mut prefers_vec = Vec::new();

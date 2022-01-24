@@ -1,7 +1,6 @@
 use crate::enums::days;
 use std::collections::HashMap;
 
-
 /// The phenotype
 pub type Schedule = Vec<AssignedShifts>;
 
@@ -13,7 +12,6 @@ pub struct Chromosome
 }
 
 pub type Chromosomes = Vec<Chromosome>;
-
 
 #[derive(Serialize, Deserialize)]
 pub struct Simulator {
@@ -54,7 +52,6 @@ pub struct SoftConstraint {
 }
 
 pub type SCbyStaff =  HashMap<i32, SoftConstraint>;
-
 
 #[derive(Serialize, Deserialize)]
 pub struct Lecture {

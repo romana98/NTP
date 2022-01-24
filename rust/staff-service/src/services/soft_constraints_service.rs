@@ -10,7 +10,6 @@ use actix_web::{web};
 use diesel::result::Error;
 use std::collections::HashMap;
 
-
 pub fn get_soft_constraints(id: i32, pool: &web::Data<Pool>) -> Result<SoftConstraintsDTO, Error> {
     info!("{}", format!("   Getting soft_constraints {}", id));
   
@@ -47,7 +46,6 @@ pub fn update_soft_constraints(sc_dto: SoftConstraintsDTO, pool: &web::Data<Pool
             num: value
         };
         prefers_vec.push(prefer);
-        
     }
 
     let result = prefers_repository::update_prefers(sc_dto.id.parse::<i32>().unwrap(), prefers_vec, &connection);

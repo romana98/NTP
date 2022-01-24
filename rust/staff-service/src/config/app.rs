@@ -4,7 +4,6 @@ use actix_web::web;
 use actix_web_httpauth::middleware::HttpAuthentication;
 
 pub fn config_services(cfg: &mut web::ServiceConfig) {
-    info!("Configuring routes...");
     let auth = HttpAuthentication::bearer(token_util::validator);
 
     cfg.service (

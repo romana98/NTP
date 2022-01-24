@@ -1,7 +1,6 @@
 use std::env;
 use lazy_static::lazy_static;
 
-
 lazy_static! {
     pub static ref LECTURE_SERVICE: String = env::var("LECTURE_SERVICE").expect("LECTURE_SERVICE not found.");
 }

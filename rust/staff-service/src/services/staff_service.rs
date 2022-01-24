@@ -16,9 +16,7 @@ use std::collections::HashMap;
 use std::vec::Vec;
 use bcrypt::{hash, DEFAULT_COST};
 
-
 pub fn create_staff(staff_dto: StaffDTO, pool: &web::Data<Pool>) -> Result<StaffDTO, Error> {
-    //let uid = token_util::get_user_id(req.clone()).unwrap();
     info!("{}", format!("   Inserting staff {} {}", &staff_dto.name, &staff_dto.surname));
 
     let connection = pool.get().expect("Connection from pool");
@@ -265,7 +263,6 @@ pub fn delete_staff_by_faculty(faculty_id: i32, pool: &web::Data<Pool>) -> Resul
             return Err(response_util::error_response(Error::NotFound))
         }
     }
-
     Ok( "   Staff successfully deleted!".to_string())
 }
 
