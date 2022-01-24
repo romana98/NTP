@@ -73,6 +73,10 @@ pub fn config_services(cfg: &mut web::ServiceConfig) {
             .service(
                 web::scope("/schedule")
                     .service(
+                        web::resource("")
+                        .route(web::put().to(schedule_api::add_schedule))
+                    )
+                    .service(
                         web::resource("/{id}")
                             .route(web::get().to(schedule_api::get_faculty))
                     )

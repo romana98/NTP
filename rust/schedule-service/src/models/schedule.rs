@@ -7,6 +7,12 @@ pub struct Schedule {
 }
 
 #[derive(Serialize, Deserialize)]
+pub struct ScheduleFacultyDTO {
+    pub schedule_id: i32,
+    pub schedule: Vec<ScheduleDTO>
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct ScheduleDTO {
     pub staff: String,
     pub day: String,

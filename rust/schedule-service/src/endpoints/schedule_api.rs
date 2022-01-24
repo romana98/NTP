@@ -1,14 +1,15 @@
 use crate::{
     config::db::Pool,
-    models::{algorithm::{FacultySchedule, StaffSchedule, LectureSchedule, IdDTO}},
+    models::{algorithm::{FacultySchedule, StaffSchedule, LectureSchedule, IdDTO, FacultyDTO}},
     constants::{urls},
     enums::role,
     algorithm::nsp,
-    services::schedule_service
+    services::schedule_service,
+    utils::response_util
 };
+use actix_web::{web, error, Error, HttpRequest,  HttpResponse, Result};
 use actix_web_grants::permissions::{AuthDetails, PermissionsCheck};
-use actix_web::{web, HttpRequest, HttpResponse};
-//use actix_web::web::{Path};
+use actix_web::web::{Path};
 use awc;
 
 
@@ -55,10 +56,26 @@ pub async fn generate_schedule(id: web::Json<IdDTO>, pool: web::Data<Pool>, req:
                                     let service_result = schedule_service::save_schedule(schedule, &pool);
 
                                     match service_result{
-                                        Ok(res) => {return HttpResponse::Ok().json(res);},
+                                        Ok(res) => {
+                                            let url_faculty_schedule = format!("{}{}", *urls::FACULTY_SERVICE, &urls::SCHEDULE);
+                                            let id_dto = FacultyDTO{faculty_id: faculty.id, schedule_id: res.schedule_id};
+                                            
+                                            let resp_faculty_schedule = client.put(url_faculty_schedule)
+                                                        .header("Authorization", token.unwrap())
+                                                        .send_json(&id_dto)
+                                                        .await;
+                                                        
+                                            match resp_faculty_schedule{
+                                                Ok(_) => {
+                                                    schedule_service::delete_schedule(faculty.schedule_id, &pool).unwrap();
+                                                    return HttpResponse::Ok().json(res.schedule);},
+                                                Err(error) => {
+                                                    return HttpResponse::BadRequest().body(error.to_string());
+                                                }
+                                            } 
+                                        },
                                         Err(error) => {return HttpResponse::BadRequest().body(error.to_string());}
                                     };
-                                    //return HttpResponse::Ok().json(schedule);
                                 }
                                 Err(error) => {
                                     return HttpResponse::BadRequest().body(error.to_string());
@@ -76,5 +93,33 @@ pub async fn generate_schedule(id: web::Json<IdDTO>, pool: web::Data<Pool>, req:
             }
         },
         false => HttpResponse::Unauthorized().body("Access denied".to_string())
+    }
+}
+
+// GET /schedule/{id}
+pub async fn get_schedule(id: Path<i32>, pool: web::Data<Pool>, details: AuthDetails) -> Result<HttpResponse, Error> {
+    info!("   Getting schedule requested");
+    
+    match details.has_permission(&role::Role::Admin.to_string()) {
+        true => {
+            schedule_service::get_schedule(id.into_inner(), &pool)
+                .map(|faculty| HttpResponse::Ok().json(faculty))
+                .map_err(|error| response_util::error_response(error))
+        },
+        false => Err(error::ErrorForbidden("Access denied")),
+    }
+}
+
+// GET /schedule/by-staff/{id}
+pub async fn get_schedule_by_staff(id: Path<i32>, pool: web::Data<Pool>, details: AuthDetails) -> Result<HttpResponse, Error> {
+    info!("   Getting schedule requested");
+    
+    match details.has_permission(&role::Role::Staff.to_string()) {
+        true => {
+            schedule_service::get_schedule_by_staff(id.into_inner(), &pool)
+                .map(|faculty| HttpResponse::Ok().json(faculty))
+                .map_err(|error| response_util::error_response(error))
+        },
+        false => Err(error::ErrorForbidden("Access denied")),
     }
 }

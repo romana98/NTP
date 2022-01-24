@@ -1,7 +1,8 @@
 use crate::{
     config::db::Pool,
     models::{
-        staff::{StaffDTO}
+        staff::{StaffDTO},
+        schedule::{IdDTO}
     },
     services::staff_service,
     utils::{response_util, token_util},
@@ -67,7 +68,6 @@ pub async fn get_staff_lectures(pool: web::Data<Pool>, http_request: HttpRequest
             staff_service::get_staff_lectures(id, &pool)
                 .map(|lectures| {
                         HttpResponse::Ok().json(lectures)
-
                         
                     })
                 .map_err(|error| response_util::error_response(error))
@@ -117,5 +117,21 @@ pub async fn delete_staff_by_faculty(id: Path<i32>, pool: Data<Pool>, details: A
                 .map_err(|error| error)
         },
         false => Err(error::ErrorForbidden("Access denied")),
+    }
+}
+
+
+// GET /staff/id
+pub async fn get_staff_id(http_request: HttpRequest, details: AuthDetails) -> HttpResponse {
+    info!("   Getting staff_id requested");
+
+    match details.has_permission(&role::Role::Staff.to_string()) {
+        true => {
+
+            let id = token_util::get_id(http_request).unwrap();    
+            HttpResponse::Ok().json(IdDTO{id: id})
+                 
+        },
+        false => HttpResponse::Unauthorized().body("Access denied".to_string())
     }
 }

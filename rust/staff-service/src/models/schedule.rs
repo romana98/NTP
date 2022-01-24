@@ -8,3 +8,9 @@ pub struct StaffSchedule {
     pub lectures: Vec<i32>,
     pub soft_constraint: SoftConstraintsDTO
 }
+
+
+#[derive(Serialize, Deserialize)]
+pub struct IdDTO {
+    pub id: i32
+}

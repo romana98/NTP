@@ -105,12 +105,12 @@ pub fn config_services(cfg: &mut web::ServiceConfig) {
                         .route(web::post().to(schedule_api::generate_schedule))
                 )
                 .service(
-                    web::resource("/{id}")
-                        //.route(web::get().to(faculty_api::get_faculty)))
+                    web::resource("/by-staff")
+                        .route(web::get().to(schedule_api::get_schedule_by_staff))
                 )
                 .service(
-                    web::resource("/by-staff")
-                        //.route(web::get().to(faculty_api::get_faculty)))
+                    web::resource("/{id}")
+                        .route(web::get().to(schedule_api::get_schedule))
                 )
             )
     );

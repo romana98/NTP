@@ -78,6 +78,7 @@ pub struct IdDTO {
 #[derive(Serialize, Deserialize)]
 pub struct FacultySchedule {
     pub id: i32,
+    pub schedule_id: i32,
     pub name: String,
     pub hard_constraint: HardConstraint,
     pub shifts: Vec<Shift>,
@@ -116,4 +117,10 @@ pub struct LectureSchedule {
     pub id: i32,
     pub name: String,
     pub number_of_times: i32
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct FacultyDTO {
+    pub faculty_id: i32,
+    pub schedule_id: i32
 }

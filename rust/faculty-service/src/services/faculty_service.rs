@@ -1,7 +1,7 @@
 use crate::{
     config::db::Pool,
     models::{faculty::{FacultyDTO, Faculty, NewFaculty}, lectures_faculty::{NewLecturesFaculty}, 
-            shifts_faculty::{NewShiftsFaculty}, schedule::{FacultySchedule}, hard_constraints::{HardConstraintDTO},
+            shifts_faculty::{NewShiftsFaculty}, schedule::{FacultySchedule, IdsDTO}, hard_constraints::{HardConstraintDTO},
             shift::{ShiftDTO}},
     utils::{response_util},
     repository::{faculty_repository, staff_faculty_repository, shifts_faculty_repository, lectures_faculty_repository, shift_repository, hard_constraints_repository},
@@ -386,7 +386,7 @@ pub fn get_faculty_for_schedule(id: i32, pool: &web::Data<Pool>) -> Result<Facul
     let shifts = shift_repository::get_all_shifts_by_ids(shifts_ids, &connection);
 
     if shifts.is_err(){
-        return shifts.map(|_|  FacultySchedule {id: -1, name: "".to_string(), 
+        return shifts.map(|_|  FacultySchedule {id: -1, schedule_id: -1, name: "".to_string(), 
                                             hard_constraint: HardConstraintDTO{id:"".to_string(), daily_max: -1, max_per_shift: -1, weekly_max: -1, weekly_min: -1},
                                             shifts: Vec::new(), staff: Vec::new(), lectures: Vec::new()})
                  .map_err(|error| error);
@@ -409,7 +409,7 @@ pub fn get_faculty_for_schedule(id: i32, pool: &web::Data<Pool>) -> Result<Facul
             let hc_result = hard_constraints_repository::get_hard_constraint(res.hard_constraint_id, &connection);
 
             if hc_result.is_err(){
-                return hc_result.map(|_|  FacultySchedule {id: -1, name: "".to_string(), 
+                return hc_result.map(|_|  FacultySchedule {id: -1, schedule_id: -1, name: "".to_string(), 
                                                     hard_constraint: HardConstraintDTO{id:"".to_string(), daily_max: -1, max_per_shift: -1, weekly_max: -1, weekly_min: -1},
                                                     shifts: Vec::new(), staff: Vec::new(), lectures: Vec::new()})
                          .map_err(|error| error);
@@ -423,16 +423,52 @@ pub fn get_faculty_for_schedule(id: i32, pool: &web::Data<Pool>) -> Result<Facul
                         max_per_shift: hard_const.max_per_shift
                     };
              }
-             
-            Ok(FacultySchedule{
-                id: res.id,
-                name: res.name,
-                hard_constraint: hc,
-                lectures: lectures_dto,
-                staff: staff_dto,
-                shifts: shifts_dto}
-            )
-            
+
+             if res.schedule_id.is_some(){
+                Ok(FacultySchedule{
+                    id: res.id,
+                    schedule_id: res.schedule_id.unwrap(),
+                    name: res.name,
+                    hard_constraint: hc,
+                    lectures: lectures_dto,
+                    staff: staff_dto,
+                    shifts: shifts_dto}
+                )
+            }else {
+                Ok(FacultySchedule{
+                    id: res.id,
+                    schedule_id: 0,
+                    name: res.name,
+                    hard_constraint: hc,
+                    lectures: lectures_dto,
+                    staff: staff_dto,
+                    shifts: shifts_dto}
+                )
+            }      
+        },
+        Err(e) => Err(e),
+    }
+}
+
+pub fn update_faculty_add_schedule(ids_dto: IdsDTO, pool: &web::Data<Pool>) -> Result<bool, Error> {
+    info!("{}", format!("   Update faculty - add schedule {}", ids_dto.faculty_id));
+  
+    let connection = pool.get().expect("Connection from pool");
+
+    let result = faculty_repository::get_faculty(ids_dto.faculty_id, &connection).unwrap();
+
+    let faculty = Faculty {
+        id: result.id,
+        name: result.name,
+        hard_constraint_id: result.hard_constraint_id,
+        schedule_id: Some(ids_dto.schedule_id)
+    };
+
+    let result = faculty_repository::update_faculty(ids_dto.faculty_id, faculty, &connection);
+
+    match result {
+        Ok(_) => {
+            Ok(true)
         },
         Err(e) => Err(e),
     }

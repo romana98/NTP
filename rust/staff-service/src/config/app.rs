@@ -22,7 +22,11 @@ pub fn config_services(cfg: &mut web::ServiceConfig) {
                     .service(
                         web::resource("/lectures")
                             .route(web::get().to(staff_api::get_staff_lectures))
-                    )   
+                    )
+                    .service(
+                        web::resource("/id")
+                            .route(web::get().to(staff_api::get_staff_id))
+                    )      
                     .service(
                         web::resource("/faculty/{id}")
                         .route(web::delete().to(staff_api::delete_staff_by_faculty))
