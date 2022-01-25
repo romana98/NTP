@@ -65,7 +65,9 @@ pub async fn generate_schedule(id: web::Json<IdDTO>, pool: web::Data<Pool>, req:
                                                         
                                             match resp_faculty_schedule{
                                                 Ok(_) => {
-                                                    schedule_service::delete_schedule(faculty.schedule_id, &pool).unwrap();
+                                                    if faculty.schedule_id != 0{
+                                                        schedule_service::delete_schedule(faculty.schedule_id, &pool).unwrap();
+                                                    }
                                                     return HttpResponse::Ok().json(res.schedule);},
                                                 Err(error) => {
                                                     return HttpResponse::BadRequest().body(error.to_string());

@@ -24,7 +24,7 @@ export class ShiftCrudComponent implements OnInit {
               public snackBar: MatSnackBar) {
 
     this.form = this.fb.group({
-      id: [null, Validators.required],
+      id: [null],
       startHour: [null, Validators.required],
       startMinute: [null, Validators.required],
       endHour: [null, Validators.required],
@@ -49,8 +49,8 @@ export class ShiftCrudComponent implements OnInit {
 
   addShift() {
     this.shiftService.createShift(new ShiftModel("",
-      this.form.controls['startHour'].value + ':' + this.form.controls['startMinute'].value,
-      this.form.controls['endHour'].value + ':' + this.form.controls['endMinute'].value,
+      ('0' + this.form.controls['startHour'].value).slice(-2) + ':' + ('0' + this.form.controls['startMinute'].value).slice(-2),
+      ('0' + this.form.controls['endHour'].value).slice(-2) + ':' + ('0' + this.form.controls['endMinute'].value).slice(-2),
       this.form.controls['day'].value)).toPromise().then(() => {
       this.snackBar.open("Successfully created shift", "Close", {duration: 2000});
       this.getShifts();
@@ -73,8 +73,8 @@ export class ShiftCrudComponent implements OnInit {
   editShift() {
     this.isHidden = true;
     this.shiftService.updateShift(new ShiftModel(this.formEdit.controls['id'].value,
-      this.formEdit.controls['startHour'].value + ':' + this.formEdit.controls['startMinute'].value,
-      this.formEdit.controls['endHour'].value + ':' + this.formEdit.controls['endMinute'].value,
+      ('0' + this.formEdit.controls['startHour'].value).slice(-2) + ':' + ('0' + this.formEdit.controls['startMinute'].value).slice(-2),
+      ('0' + this.formEdit.controls['endHour'].value).slice(-2) + ':' + ('0' + this.formEdit.controls['endMinute'].value).slice(-2),
       this.formEdit.controls['day'].value)).toPromise().then(() => {
       this.snackBar.open("Successfully updated shift", "Close", {duration: 2000});
       this.isHidden = true;
@@ -107,6 +107,14 @@ export class ShiftCrudComponent implements OnInit {
     }, (err) => {
       this.snackBar.open("Server error: " + err.status, "Close", {duration: 2000});
     })
+  }
+
+  addZero(shiftTime: string){
+    this.form.controls[shiftTime].patchValue(('0' + this.form.controls[shiftTime].value).slice(-2))
+  }
+
+  addZeroEdit(shiftTime: string){
+    this.formEdit.controls[shiftTime].patchValue(('0' + this.formEdit.controls[shiftTime].value).slice(-2))
   }
 
 }

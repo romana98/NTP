@@ -5,29 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50544e0f-6f21-4984-aa1b-42cb22b6612c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/nsp-simulation.go" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/nsp-simulation.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/nsp.go" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/nsp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/admin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/faculty.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/faculty.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/hard-contraints.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/hard-contraints.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/lecture.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/lecture.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/schedule.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/schedule.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/shift.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/shift.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/soft-constraints.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/soft-constraints.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/staff.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/faculty-handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/faculty-handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/hard-constraint-handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/hard-constraint-handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/lecture-handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/lecture-handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/schedule-handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/schedule-handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/shift-handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/shift-handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/soft-constraint-handle.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/soft-constraint-handle.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/staff-handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/staff-handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rust/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

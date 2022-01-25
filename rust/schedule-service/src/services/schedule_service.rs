@@ -37,14 +37,14 @@ pub fn save_schedule(schedule: Schedule, pool: &web::Data<Pool>) -> Result<Sched
                         shift_lecture_map.push(NewShiftsLecture{
                             assigned_shifts_id: assigned_shifts.id,
                             day: day.to_string(),
-                            shift: format!("{}-{}", vertex.end, vertex.start),
+                            shift: format!("{}-{}", vertex.start, vertex.end),
                             lecture: (*lectures.get(cnt).unwrap()).to_owned()
                         });
                         
                         schedule_dto_vec.push(ScheduleDTO{
                             staff: (*assigned_shifts.staff).to_owned(),
                             day: day.to_string(),
-                            shift: format!("{}-{}", vertex.end, vertex.start),
+                            shift: format!("{}-{}", vertex.start, vertex.end),
                             lecture: (*lectures.get(cnt).unwrap()).to_owned()
                         });
                         cnt+=1;
