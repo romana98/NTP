@@ -22,5 +22,5 @@ pub fn config_logging() -> Config {
 }
 
 fn log_storage() -> String {
-    env::var("LOG_STORAGE").unwrap_or_else(|_| "D:/A/logs_lecture_service.log".into())
+    env::var("LOG_STORAGE").unwrap_or_else(|_| "D:/logs/logs_lecture_service.log".into())
 }

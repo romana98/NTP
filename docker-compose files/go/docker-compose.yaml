@@ -10,10 +10,7 @@ services:
       - "27018:27017"
 
   golang:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: romana98/golang
+    image: romana98/golang:latest
     container_name: golang
     depends_on:
       - mongo-db

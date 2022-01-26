@@ -42,10 +42,7 @@ services:
       - "5436:5432"
 
   api-gateway:
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
-    image: romana98/api-gateway
+    image: romana98/api-gateway:latest
     container_name: api-gateway
     restart: always
     volumes:
@@ -65,10 +62,7 @@ services:
     ports:
       - "8080:8080"
   auth-service:
-    build:
-      context: ./auth-service
-      dockerfile: Dockerfile
-    image: romana98/auth-service
+    image: romana98/auth-service:latest
     container_name: auth-service
     restart: always
     depends_on:
@@ -86,10 +80,7 @@ services:
     ports:
       - "8085:8085"
   faculty-service:
-    build:
-      context: ./faculty-service
-      dockerfile: Dockerfile
-    image: romana98/faculty-service
+    image: romana98/faculty-service:latest
     container_name: faculty-service
     restart: always
     depends_on:
@@ -107,10 +98,7 @@ services:
     ports:
       - "8083:8083"
   lecture-service:
-    build:
-      context: ./lecture-service
-      dockerfile: Dockerfile
-    image: romana98/lecture-service
+    image: romana98/lecture-service:latest
     container_name: lecture-service
     restart: always
     depends_on:
@@ -128,10 +116,7 @@ services:
     ports:
       - "8081:8081"
   schedule-service:
-    build:
-      context: ./schedule-service
-      dockerfile: Dockerfile
-    image: romana98/schedule-service
+    image: romana98/schedule-service:latest
     container_name: schedule-service
     restart: always
     depends_on:
@@ -152,10 +137,7 @@ services:
     ports:
       - "8084:8084"
   staff-service:
-    build:
-      context: ./staff-service
-      dockerfile: Dockerfile
-    image: romana98/staff-service
+    image: romana98/staff-service:latest
     container_name: staff-service
     restart: always
     depends_on:
