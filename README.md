@@ -1,4 +1,4 @@
-# NTP - Optimizacija organizacije rasporeda nastave (Schedule)
+# Optimizacija organizacije rasporeda nastave (Schedule)
 Predmetni projekat iz naprednih tehnika programiranja - Romana Erdelji, sw58/2017
 
 ## Opis problema
@@ -70,3 +70,4 @@ Pre puštanja compose fajla za go i rust potrebno je namestiti sledeće txt fajl
 * logs_lecture_service
 * logs_schedule_service
 * logs_staff_service
+Napomena: go i rust ne mogu biti u isto vreme pokrenuti containter-i jer api-gateway i go slušaju na istom portu.
