@@ -19,7 +19,7 @@ services:
       - mongo-db
     volumes:
       - type: bind
-        source: D:/logs/golang.log
+        source: ./logs/golang.log
         target: /golang/logs/logs.log
     environment:
       MONGODB_URI: mongodb://mongo-db

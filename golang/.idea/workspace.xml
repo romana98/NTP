@@ -6,21 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="50544e0f-6f21-4984-aa1b-42cb22b6612c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logging/logger.go" beforeDir="false" afterPath="$PROJECT_DIR$/logging/logger.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rust/api-gateway/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/api-gateway/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rust/api-gateway/src/config/log.rs" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/api-gateway/src/config/log.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rust/auth-service/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/auth-service/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rust/auth-service/src/config/log.rs" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/auth-service/src/config/log.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rust/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rust/faculty-service/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/faculty-service/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rust/faculty-service/src/config/log.rs" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/faculty-service/src/config/log.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rust/lecture-service/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/lecture-service/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rust/lecture-service/src/config/log.rs" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/lecture-service/src/config/log.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rust/schedule-service/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/schedule-service/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rust/schedule-service/src/config/log.rs" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/schedule-service/src/config/log.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rust/staff-service/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/staff-service/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rust/staff-service/src/config/log.rs" beforeDir="false" afterPath="$PROJECT_DIR$/../rust/staff-service/src/config/log.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

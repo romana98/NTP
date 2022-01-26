@@ -1,0 +1,14 @@
+cd go
+mkdir logs
+cd logs
+type nul>golang.log
+cd ../../
+cd rust
+mkdir logs
+cd logs
+type nul>logs_api_gateway.log
+type nul>logs_auth_service.log
+type nul>logs_faculty_service.log
+type nul>logs_lecture_service.log
+type nul>logs_schedule_service.log
+type nul>logs_staff_service.log

@@ -50,7 +50,7 @@ services:
     restart: always
     volumes:
       - type: bind
-        source: D:/logs/logs_api_gateway.log
+        source:  ./logs/logs_api_gateway.log
         target: /api-gateway/logs/logs.log
     environment:
       - ADDRESS=0.0.0.0
@@ -75,7 +75,7 @@ services:
       -  staff
     volumes:
       - type: bind
-        source: D:/logs/logs_auth_service.log
+        source: ./logs/logs_auth_service.log
         target: /auth-service/logs/logs.log
     environment:
       - ADDRESS=0.0.0.0
@@ -96,7 +96,7 @@ services:
       -  faculty
     volumes:
       - type: bind
-        source: D:/logs/logs_faculty_service.log
+        source: ./logs/logs_faculty_service.log
         target: /faculty-service/logs/logs.log
     environment:
       - ADDRESS=0.0.0.0
@@ -117,7 +117,7 @@ services:
       -  lecture
     volumes:
       - type: bind
-        source: D:/logs/logs_lecture_service.log
+        source: ./logs/logs_lecture_service.log
         target: /lecture-service/logs/logs.log
     environment:
       - ADDRESS=0.0.0.0
@@ -138,7 +138,7 @@ services:
       -  schedule
     volumes:
       - type: bind
-        source: D:/logs/logs_schedule_service.log
+        source: ./logs/logs_schedule_service.log
         target: /schedule-service/logs/logs.log
     environment:
       - ADDRESS=0.0.0.0
@@ -162,7 +162,7 @@ services:
       -  staff
     volumes:
       - type: bind
-        source: D:/logs/logs_staff_service.log
+        source: ./logs/logs_staff_service.log
         target: /staff-service/logs/logs.log
     environment:
       - ADDRESS=0.0.0.0

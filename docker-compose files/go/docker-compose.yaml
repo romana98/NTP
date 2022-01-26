@@ -16,10 +16,16 @@ services:
       - mongo-db
     volumes:
       - type: bind
-        source: D:/logs/golang.log
+        source: ./logs/golang.log
         target: /golang/logs/logs.log
     environment:
       MONGODB_URI: mongodb://mongo-db
       LOG_STORAGE: /golang/logs/logs.log
     ports:
       - '8080:8080'
+      
+  frontend-app:
+    image: romana98/frontend-app:latest
+    container_name: frontend-go
+    ports:
+      - '4200:4200'
