@@ -70,4 +70,5 @@ Pre puštanja compose fajla za go i rust potrebno je namestiti sledeće txt fajl
 * logs_lecture_service
 * logs_schedule_service
 * logs_staff_service
+<br />
 Napomena: go i rust ne mogu biti u isto vreme pokrenuti containter-i jer api-gateway i go slušaju na istom portu.
