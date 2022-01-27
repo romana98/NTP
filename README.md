@@ -61,14 +61,9 @@ Predstavlja client side aplikacije, služi za manipulisanje CRUD operacijama nad
 Deljan opis algoritma, kao i poređenje performansi i težina implementacije se nalazi u fajlu "Izveštaj".
 
 ## Docker
-U folderu "docker-compose files" se nalaze compose fajlovi koji će napraviti container-e za go, rust, angular i baze. 
-Pre puštanja compose fajla za go i rust potrebno je namestiti sledeće txt fajlove na putanji "D:/logs":
-* golang
-* logs_api_gateway
-* logs_auth_service
-* logs_faculty_service
-* logs_lecture_service
-* logs_schedule_service
-* logs_staff_service
-<br />
+U folderu "docker-compose files" se nalaze compose fajlovi koji će napraviti potrebne container-e. Rust compose fajl pokreće Rust + Angular, dok go pokreće Go + Angular.<br />
+
+Pre puštanja compose fajlova potrebno je pokrenuti skriptu "LogMaker"/"linuxLogMaker" za kreiranje neophodnih log fajlova.<br />
+Bitno je da se folderi "go" i "rust" nalaze na istoj putanji kao i skripta, i da se docker-compose fajlovi nalaze u tim folderima kao što je u "docker-compose files" folderu.
+
 Napomena: go i rust containter-i ne mogu biti u isto vreme pokrenuti jer api-gateway i go slušaju na istom portu.
