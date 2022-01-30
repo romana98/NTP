@@ -140,7 +140,6 @@ func GetSchedule(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	return
-
 }
 
 func GetScheduleByStaff(w http.ResponseWriter, r *http.Request) {
@@ -149,7 +148,8 @@ func GetScheduleByStaff(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(isAuth)
 	}
 
-	email := getLoggedInEmail(r.Header.Get("Authorization"))
+	tokenString := r.Header.Get("Authorization")
+	email := getLoggedInEmail(tokenString[7:])
 	staffLoggedIn, err := data.GetStaffByEmail(email)
 
 	if err != nil {
@@ -182,7 +182,6 @@ func GetScheduleByStaff(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-
 		if staff.ID == staffLoggedIn.ID {
 			for day, shifts := range el.Shifts {
 				for _, shift := range shifts {

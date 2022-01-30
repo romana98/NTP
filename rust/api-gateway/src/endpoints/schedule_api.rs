@@ -15,6 +15,7 @@ pub async fn generate_schedule(id: web::Json<IdDTO>, req: HttpRequest) -> HttpRe
 
     let token = req.headers().get("Authorization").unwrap().to_str().ok();
     let resp = client.post(url)
+                .timeout(std::time::Duration::new(180, 0))
                 .header("Authorization", token.unwrap())
                 .send_json(&id.into_inner())
                 .await;

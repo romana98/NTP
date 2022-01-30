@@ -45,6 +45,7 @@ table! {
 
 joinable!(lectures_staffs -> staffs (staff_id));
 joinable!(prefers -> soft_constraints (soft_c_id));
+joinable!(staffs -> soft_constraints (soft_constraints));
 
 allow_tables_to_appear_in_same_query!(
     admins,

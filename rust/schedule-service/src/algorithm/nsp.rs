@@ -326,18 +326,8 @@ pub fn start(faculty: &FacultySchedule, staff: &Vec<StaffSchedule>, lectures: &V
     loop {
         let result = simulation.step(); 
         match result {
-            Ok(SimResult::Intermediate(step)) => {
-                let evaluated_population = step.result.evaluated_population;
-                let best_solution = step.result.best_solution;
-                info!(
-                    "Step: generation: {}, average_fitness: {}, \
-                     best fitness: {}, duration: {}, processing_time: {}",
-                    step.iteration,
-                    evaluated_population.average_fitness(),
-                    best_solution.solution.fitness,
-                    step.duration.fmt(),
-                    step.processing_time.fmt()
-                );
+            Ok(SimResult::Intermediate(_)) => {
+               
             }
             Ok(SimResult::Final(step, processing_time, duration, stop_reason)) => {
                 let best_solution = step.result.best_solution;

@@ -7,6 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/romana98/NTP/data"
 	"github.com/romana98/NTP/enum"
+	"github.com/romana98/NTP/logging"
 	"net/http"
 	"time"
 )
@@ -166,10 +167,12 @@ func getLoggedInEmail(token string) string {
 	claims := &Claims{}
 
 	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		logging.InfoLogger.Println("Got jwtKey")
 		return jwtKey, nil
 	})
 
 	if err != nil {
+		logging.ErrorLogger.Println(err)
 		return ""
 	}
 

@@ -16,7 +16,8 @@ func GetSoftConstraintsByStaff(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(isAuth)
 	}
 
-	email := getLoggedInEmail(r.Header.Get("Authorization"))
+	tokenString := r.Header.Get("Authorization")
+	email := getLoggedInEmail(tokenString[7:])
 	staff, err := data.GetStaffByEmail(email)
 
 	if err != nil {
