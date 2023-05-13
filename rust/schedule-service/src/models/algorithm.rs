@@ -1,13 +1,47 @@
 use crate::enums::days;
 use std::collections::HashMap;
 
-/// The phenotype
 pub type Schedule = Vec<AssignedShifts>;
 
+pub trait GetSchedule {
+    fn get_copy(&self) -> Schedule;
+}
+
+//impl Schedule {
+impl GetSchedule for Schedule {
+    fn get_copy(&self) -> Schedule {
+        let mut schedule_copy = Vec::new();
+    
+        for assigned_shift in self {
+            let mut lectures_copy = Vec::new();
+            for lecture in &assigned_shift.lectures {
+                lectures_copy.push(Lecture{name:(*lecture.name).to_owned(), number_of_times: lecture.number_of_times});
+            }
+    
+            let mut shifts_copy: ShiftMap = HashMap::new();
+    
+            for (k, v) in &assigned_shift.shifts {
+                let mut v_copy: Vec<Vertex> = Vec::new();
+    
+                for vertex in v {
+                    v_copy.push(Vertex{start: (*vertex.start).to_owned(), end: (*vertex.end).to_owned()});
+                }
+                shifts_copy.insert((*k).to_owned(), v_copy);
+            }
+            schedule_copy.push(AssignedShifts{
+                staff_id: assigned_shift.staff_id,
+                staff: (*assigned_shift.staff).to_owned(),
+                lectures: lectures_copy,
+                shifts: shifts_copy
+            });
+        }
+        return schedule_copy;
+    }
+}
+
 /// The genotype
-#[derive(Clone, Debug, PartialEq, PartialOrd)]
-pub struct Chromosome 
-{
+#[derive(Clone, Debug, PartialEq, PartialOrd, Eq, Hash)]
+pub struct Chromosome {
     pub day_index: i8
 }
 
@@ -30,7 +64,7 @@ pub struct VertexLecture {
     pub lecture: String
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct AssignedShifts {
     pub staff_id: i32,
     pub staff: String,
@@ -39,7 +73,7 @@ pub struct AssignedShifts {
 }
 pub type ShiftMap = HashMap<days::Day, Vec<Vertex>>;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Vertex {
     pub start: String,
     pub end: String,
@@ -53,7 +87,7 @@ pub struct SoftConstraint {
 
 pub type SCbyStaff =  HashMap<i32, SoftConstraint>;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Lecture {
     pub name: String,
     pub number_of_times: i32

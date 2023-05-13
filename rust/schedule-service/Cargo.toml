@@ -36,3 +36,4 @@ strum_macros = "0.23"
 
 genevo = "0.7"
 rand = "0.8.4"
+chrono = "0.4.23"
