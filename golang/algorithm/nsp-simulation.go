@@ -1,6 +1,7 @@
 package algorithm
 
 import (
+	"fmt"
 	"github.com/romana98/NTP/data"
 	ga "github.com/tomcraven/goga"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -45,13 +46,18 @@ func (ms *MaterSimulator) OnEndSimulation() {
 }
 
 func (ms *MaterSimulator) ExitFunc(genome *ga.IGenome) bool {
-	rotation := newRotation(*genome, ms.staff, ms.shiftMap)
 	if ms.iteration > maxIteration {
+		//fmt.Println("ende")
 		return true
 	}
 
-	for i := 0; i < len(rotation.schedule); i++ {
-		assignedShifts := rotation.schedule[i]
+	if (*genome).GetFitness() == 0 {
+		//fmt.Println("heeeell yeah")
+		return false
+	}
+
+	for i := 0; i < len(ms.eliteSchedule); i++ {
+		assignedShifts := ms.eliteSchedule[i]
 
 		weekly := 0
 		for _, v := range assignedShifts.Shifts {
@@ -70,7 +76,7 @@ func (ms *MaterSimulator) ExitFunc(genome *ga.IGenome) bool {
 			valMS := vSM[i]
 			numOfTimes := 0
 
-			for _, el := range rotation.schedule {
+			for _, el := range ms.eliteSchedule {
 				assignedShifts := el
 
 				for kAS, vAS := range assignedShifts.Shifts {
@@ -86,7 +92,7 @@ func (ms *MaterSimulator) ExitFunc(genome *ga.IGenome) bool {
 			}
 		}
 	}
-
+	(*genome).SetFitness(1000)
 	return true
 }
 
@@ -96,10 +102,10 @@ type BitsetCreate struct {
 
 func (ec *EliteConsumer) OnElite(g *ga.IGenome) {
 	fitness := (*g).GetFitness()
-	/*if ec.currentIter > 0 {
+	if ec.currentIter > 0 {
 
 		fmt.Println(ec.currentIter, "\t", fitness, "\t", ec.previousFitness)
-	}*/
+	}
 	ec.currentIter++
 	ec.previousFitness = fitness
 }

@@ -12,14 +12,15 @@ import (
 )
 
 const (
-	populationSize = 20
+	populationSize = 100
 	numberOfDays   = 5
-	numThreads     = 10
-	maxIteration   = 15000
+	numThreads     = 20
+	maxIteration   = 100000
 )
 
 type Rotation struct {
-	schedule []data.AssignedShifts
+	schedule           []data.AssignedShifts
+	incompleteSchedule bool
 }
 
 type RotationStaff struct {
@@ -46,20 +47,26 @@ func newRotation(genome ga.IGenome, staff []RotationStaff, shiftMap data.ShiftMa
 		for j := 0; j < staff[i].numOfShifts; j, index = j+1, index+1 {
 			chromosome := bits.Get(index)
 
-			day, shift := getDayAndShift(getAvailableShifts(shiftMap, assignedShifts.Shifts), Abs(chromosome))
+			day, shift, shiftExists := getDayAndShift(getAvailableShifts(shiftMap, assignedShifts.Shifts), Abs(chromosome))
+			if !shiftExists {
+				r.incompleteSchedule = true
+				return r
+			}
 			assignedShifts.Shifts[day] = append(assignedShifts.Shifts[day], shift)
 		}
 		r.schedule = append(r.schedule, assignedShifts)
 	}
-
+	r.incompleteSchedule = false
 	return r
 }
 
-func getDayAndShift(shiftMap data.ShiftMap, dayIdx int) (enum.DAY, data.Vertex) {
+func getDayAndShift(shiftMap data.ShiftMap, dayIdx int) (enum.DAY, data.Vertex, bool) {
 	days := [5]enum.DAY{enum.Monday, enum.Tuesday, enum.Wednesday, enum.Thursday, enum.Friday}
 
+	// has no shifts for that day
 	for len(shiftMap[days[dayIdx]]) == 0 {
-		dayIdx = Abs(rand.Intn(numberOfDays))
+		//fmt.Println("okic")
+		return enum.Monday, data.Vertex{}, false
 	}
 
 	var num int
@@ -68,7 +75,7 @@ func getDayAndShift(shiftMap data.ShiftMap, dayIdx int) (enum.DAY, data.Vertex) 
 	}
 	shiftIdx := rand.Intn(num)
 	shift := shiftMap[days[dayIdx]][shiftIdx]
-	return days[dayIdx], shift
+	return days[dayIdx], shift, true
 }
 
 func getAvailableShifts(shiftMap, assignedShifts data.ShiftMap) data.ShiftMap {
@@ -100,6 +107,10 @@ func getAvailableShifts(shiftMap, assignedShifts data.ShiftMap) data.ShiftMap {
 
 func (r Rotation) GetFitness(softConstraintsByStaff map[primitive.ObjectID]data.SoftConstraint) int {
 
+	if r.incompleteSchedule {
+		return 0
+	}
+
 	fitness := 0
 	for _, el := range r.schedule {
 		sum := 0
@@ -127,7 +138,7 @@ func Start(faculty *data.Faculty) {
 	}
 
 	for _, element := range shifts {
-		materSimulator.shiftMap[element.Day] = append(materSimulator.shiftMap[element.Day], data.Vertex{element.Start, element.End})
+		materSimulator.shiftMap[element.Day] = append(materSimulator.shiftMap[element.Day], data.Vertex{Start: element.Start, End: element.End})
 	}
 
 	hc, err := data.GetHardConstraintById(faculty.HardConstraint)

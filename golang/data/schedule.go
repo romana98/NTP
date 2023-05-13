@@ -9,15 +9,19 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+// ShiftMap {day: [{start of shift/lecture slot, end of shift/lecture slot}]}
 type ShiftMap map[enum.DAY][]Vertex
 
+// ShiftLectureMap {day: [{start of shift/lecture slot, end of shift/lecture slot, lecture}]}
 type ShiftLectureMap map[enum.DAY][]VertexLecture
 
+// Vertex {start of shift/lecture slot, end of shift/lecture slot}
 type Vertex struct {
 	Start string `json:"start" bson:"start"`
 	End   string `json:"end" bson:"end"`
 }
 
+// VertexLecture {start of shift/lecture slot, end of shift/lecture slot, lecture}
 type VertexLecture struct {
 	Start string `json:"start" bson:"start"`
 	End   string `json:"end" bson:"end"`
